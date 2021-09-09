@@ -1,7 +1,7 @@
 package com.brainstorm.controller;
 
 import com.brainstorm.exception.ResourceNotFoundException;
-import com.brainstorm.model.Tarea;
+
 import com.brainstorm.model.Usuario;
 import com.brainstorm.repository.UsuarioRepository;
 
@@ -49,6 +49,7 @@ public class UsuarioController {
     	usuario.setSexo(usuarioDetails.getSexo());
     	usuario.setUsuarioActivo(usuarioDetails.isUsuaarioActivo());
     	usuario.setEmail(usuarioDetails.getEmail());
+    	usuario.setUsuarioFullAccess(usuarioDetails.isUsuarioFullAccess());
 
         Usuario usuarioAcutalizado = usuarioRepository.save(usuario);
         return usuarioAcutalizado;

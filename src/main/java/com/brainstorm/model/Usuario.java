@@ -28,6 +28,8 @@ public class Usuario {
 	private String sexo;
 
 	private boolean usuarioActivo;
+	
+	private boolean usuarioFullAccess;
 
 	@NotBlank
 	private String email;
@@ -99,6 +101,14 @@ public class Usuario {
 
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
+	}
+	
+	public boolean isUsuarioFullAccess() {
+		return usuarioFullAccess;
+	}
+
+	public void setUsuarioFullAccess(boolean usuarioFullAccess) {
+		this.usuarioFullAccess = usuarioFullAccess;
 	}
 
 }
