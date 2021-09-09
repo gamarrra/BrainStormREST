@@ -27,7 +27,7 @@ public class Tarea {
 
     private Long responsable;   
     
-    private int status;
+    private int statusId;
 
     private Date fechaComprometida;
 
@@ -71,12 +71,12 @@ public class Tarea {
 		this.responsable = responsable;
 	}
 
-	public int getStatus() {
-		return status;
+	public int getStatusId() {
+		return statusId;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setStatusId(int statusId) {
+		this.statusId = statusId;
 	}
 
 	public Date getFechaComprometida() {
