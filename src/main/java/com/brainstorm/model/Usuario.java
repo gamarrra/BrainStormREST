@@ -1,27 +1,19 @@
 package com.brainstorm.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
-public class Usuario implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class Usuario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long usuarioId;
@@ -46,15 +38,6 @@ public class Usuario implements Serializable{
 	@Temporal(TemporalType.TIMESTAMP)
 	@CreatedDate
 	private Date createdAt;
-	   
-	@OneToMany(mappedBy="responsable" ,fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-    private List<Tarea> tareas;
-	
-	@OneToMany(mappedBy="creadorId" ,fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Grupo> grupos;
-	
-	@OneToMany(mappedBy="usuarioId" ,fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<Pago> pagos;
 
 	public Long getUsuarioId() {
 		return usuarioId;

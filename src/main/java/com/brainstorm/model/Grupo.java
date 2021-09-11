@@ -3,31 +3,20 @@ package com.brainstorm.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.io.Serializable;
-import java.util.List;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "grupos")
 @EntityListeners(AuditingEntityListener.class)
-public class Grupo implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+public class Grupo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long grupoId;
 
-	@ManyToOne(fetch=FetchType.LAZY)
-	private Usuario creadorId;
-	
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JoinColumn(name = "tareaId")
-	private List<Tarea> tareas;
+	private Long creadorId;
+
+	private Long tareaId;
 
 	@NotBlank
 	private String descripcion;
@@ -42,20 +31,20 @@ public class Grupo implements Serializable {
 		this.grupoId = grupoId;
 	}
 
-	public Usuario getCreadorId() {
+	public Long getCreadorId() {
 		return creadorId;
 	}
 
-	public void setCreadorId(Usuario creadorId) {
+	public void setCreadorId(Long creadorId) {
 		this.creadorId = creadorId;
 	}
 
-	public List<Tarea> getTareas() {
-		return tareas;
+	public Long getTareaId() {
+		return tareaId;
 	}
 
-	public void setTareas(List<Tarea> tareas) {
-		this.tareas = tareas;
+	public void setTareaId(Long tareaId) {
+		this.tareaId = tareaId;
 	}
 
 	public String getDescripcion() {
@@ -73,9 +62,6 @@ public class Grupo implements Serializable {
 	public void setIconoId(int iconoId) {
 		this.iconoId = iconoId;
 	}
-	
-	
-
 
 
 }
