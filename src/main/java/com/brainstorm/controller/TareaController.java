@@ -44,7 +44,7 @@ public class TareaController {
 
         tarea.setDescripcion(tareaDetails.getDescripcion());
         tarea.setResponsable(tareaDetails.getResponsable());
-        tarea.setStatusId(tareaDetails.getStatusId());
+        tarea.setEstado(tareaDetails.getEstado());
         tarea.setFechaComprometida(tareaDetails.getFechaComprometida());
         tarea.setPuntaje(tareaDetails.getPuntaje());
         tarea.setPrioridad(tareaDetails.getPrioridad());

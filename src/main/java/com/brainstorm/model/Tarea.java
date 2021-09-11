@@ -8,7 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -17,17 +17,24 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Tarea {
-    @Id
+public class Tarea implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tareaId;
 
     @NotBlank
     private String descripcion;
-
-    private Long responsable;   
     
-    private int statusId;
+    @ManyToOne(fetch=FetchType.LAZY)
+    private Usuario responsable;
+
+    @JoinColumn(name = "estadoId")
+    private Estado estado;
 
     private Date fechaComprometida;
 
@@ -63,20 +70,20 @@ public class Tarea {
 		this.descripcion = descripcion;
 	}
 
-	public Long getResponsable() {
+	public Usuario getResponsable() {
 		return responsable;
 	}
 
-	public void setResponsable(Long responsable) {
+	public void setResponsable(Usuario responsable) {
 		this.responsable = responsable;
 	}
 
-	public int getStatusId() {
-		return statusId;
+	public Estado getEstado() {
+		return estado;
 	}
 
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	public Date getFechaComprometida() {
@@ -126,6 +133,8 @@ public class Tarea {
 	public void setIconoId(int iconoId) {
 		this.iconoId = iconoId;
 	}
+
+    
     
 
 }

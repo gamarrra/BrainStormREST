@@ -7,8 +7,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 
-
-
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -17,19 +16,25 @@ import java.util.Date;
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt"},
         allowGetters = true)
-public class Pago {
-    @Id
+public class Pago implements Serializable {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long pagoId;
-
-	private Long usuarioId;
+    
+    @ManyToOne(fetch=FetchType.LAZY)
+	private Usuario usuarioId;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
     private Date createdAt;
-    
-    public Long getPagoId() {
+
+	public Long getPagoId() {
 		return pagoId;
 	}
 
@@ -37,11 +42,11 @@ public class Pago {
 		this.pagoId = pagoId;
 	}
 
-	public Long getUsuarioId() {
+	public Usuario getUsuarioId() {
 		return usuarioId;
 	}
 
-	public void setUsuarioId(Long usuarioId) {
+	public void setUsuarioId(Usuario usuarioId) {
 		this.usuarioId = usuarioId;
 	}
 
@@ -52,5 +57,7 @@ public class Pago {
 	public void setCreatedAt(Date createdAt) {
 		this.createdAt = createdAt;
 	}
-
+    
+    
+    
 }
