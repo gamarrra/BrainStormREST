@@ -13,7 +13,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/usuario")
+@RequestMapping("/tareas")
 public class TareaController {
 
     @Autowired
