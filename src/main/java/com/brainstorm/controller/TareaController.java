@@ -13,7 +13,6 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/tareas")
 public class TareaController {
 
     @Autowired

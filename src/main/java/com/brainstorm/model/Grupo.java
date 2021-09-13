@@ -19,7 +19,7 @@ public class Grupo {
 	private Long tareaId;
 
 	@NotBlank
-	private String descripcion;
+	private String nombre;
 
 	private int iconoId;
 
@@ -47,12 +47,12 @@ public class Grupo {
 		this.tareaId = tareaId;
 	}
 
-	public String getDescripcion() {
-		return descripcion;
+	public String getNombre() {
+		return nombre;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
 	public int getIconoId() {

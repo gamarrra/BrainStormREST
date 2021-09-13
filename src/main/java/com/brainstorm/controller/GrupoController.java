@@ -44,7 +44,7 @@ public class GrupoController {
 
     	grupo.setCreadorId(grupoDetails.getCreadorId());
     	grupo.setTareaId(grupoDetails.getTareaId());
-    	grupo.setDescripcion(grupoDetails.getDescripcion());
+    	grupo.setNombre(grupoDetails.getNombre());
     	grupo.setIconoId(grupoDetails.getIconoId());
 
     	Grupo grupoActualizado = grupoRepository.save(grupo);
