@@ -21,23 +21,23 @@ public class PagoController {
     PagoRepository pagoRepository;
 
     @GetMapping("/pagos")
-    public List<Pago> getAllGrupos() {
+    public List<Pago> getAll() {
         return pagoRepository.findAll();
     }
 
     @PostMapping("/pagos")
-    public Pago creatPago(@Valid @RequestBody Pago pago) {
+    public Pago create(@Valid @RequestBody Pago pago) {
         return pagoRepository.save(pago);
     }
 
     @GetMapping("/pagos/{id}")
-    public Pago getPagoById(@PathVariable(value = "id") Long pagoId) {
+    public Pago getById(@PathVariable(value = "id") Long pagoId) {
         return pagoRepository.findById(pagoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pago", "id", pagoId));
     }
 
     @PutMapping("/pagos/{id}")
-    public Pago updatePago(@PathVariable(value = "id") Long pagoId,
+    public Pago update(@PathVariable(value = "id") Long pagoId,
                                            @Valid @RequestBody Pago grupoDetails) {
 
     	Pago pago = pagoRepository.findById(pagoId)
@@ -50,7 +50,7 @@ public class PagoController {
     }
 
     @DeleteMapping("/pagos/{id}")
-    public ResponseEntity<?> deletePago(@PathVariable(value = "id") Long pagoId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long pagoId) {
     	Pago pago = pagoRepository.findById(pagoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Pago", "id", pagoId));
 

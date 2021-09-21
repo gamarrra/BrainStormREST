@@ -19,23 +19,23 @@ public class TareaController {
     TareasRepository tareasRepository;
 
     @GetMapping("/tareas")
-    public List<Tarea> getAllTareas() {
+    public List<Tarea> getAll() {
         return tareasRepository.findAll();
     }
 
     @PostMapping("/tareas")
-    public Tarea createNote(@Valid @RequestBody Tarea tarea) {
+    public Tarea create(@Valid @RequestBody Tarea tarea) {
         return tareasRepository.save(tarea);
     }
 
     @GetMapping("/tareas/{id}")
-    public Tarea getNoteById(@PathVariable(value = "id") Long tareaId) {
+    public Tarea getById(@PathVariable(value = "id") Long tareaId) {
         return tareasRepository.findById(tareaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
     }
 
     @PutMapping("/tareas/{id}")
-    public Tarea updateNote(@PathVariable(value = "id") Long tareaId,
+    public Tarea update(@PathVariable(value = "id") Long tareaId,
                                            @Valid @RequestBody Tarea tareaDetails) {
 
         Tarea tarea = tareasRepository.findById(tareaId)
@@ -54,7 +54,7 @@ public class TareaController {
     }
 
     @DeleteMapping("/tareas/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long tareaId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long tareaId) {
         Tarea tarea = tareasRepository.findById(tareaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
 

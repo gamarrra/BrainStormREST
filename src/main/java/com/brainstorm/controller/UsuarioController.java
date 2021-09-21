@@ -21,23 +21,23 @@ public class UsuarioController {
     UsuarioRepository usuarioRepository;
 
     @GetMapping("/usuarios")
-    public List<Usuario> getAllTareas() {
+    public List<Usuario> getAll() {
         return usuarioRepository.findAll();
     }
 
     @PostMapping("/usuarios")
-    public Usuario createNote(@Valid @RequestBody Usuario usuario) {
+    public Usuario create(@Valid @RequestBody Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
 
     @GetMapping("/usuarios/{id}")
-    public Usuario getNoteById(@PathVariable(value = "id") Long usuarioId) {
+    public Usuario getById(@PathVariable(value = "id") Long usuarioId) {
         return usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
     }
 
     @PutMapping("/usuarios/{id}")
-    public Usuario updateNote(@PathVariable(value = "id") Long usuarioId,
+    public Usuario update(@PathVariable(value = "id") Long usuarioId,
                                            @Valid @RequestBody Usuario usuarioDetails) {
 
     	Usuario usuario = usuarioRepository.findById(usuarioId)
@@ -56,7 +56,7 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/usuarios/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long usuarioId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long usuarioId) {
     	Usuario usuario = usuarioRepository.findById(usuarioId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
 

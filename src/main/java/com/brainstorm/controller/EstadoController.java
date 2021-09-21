@@ -20,23 +20,23 @@ public class EstadoController {
     EstadoRepository estadosRepository;
 
     @GetMapping("/estados")
-    public List<Estado> getAllEstados() {
+    public List<Estado> getAll() {
         return estadosRepository.findAll();
     }
 
     @PostMapping("/estados")
-    public Estado createNote(@Valid @RequestBody Estado estado) {
+    public Estado create(@Valid @RequestBody Estado estado) {
         return estadosRepository.save(estado);
     }
 
     @GetMapping("/estados/{id}")
-    public Estado getNoteById(@PathVariable(value = "id") Long estadoId) {
+    public Estado getById(@PathVariable(value = "id") Long estadoId) {
         return estadosRepository.findById(estadoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Estado", "id", estadoId));
     }
 
     @PutMapping("/estados/{id}")
-    public Estado updateNote(@PathVariable(value = "id") Long estadoId,
+    public Estado update(@PathVariable(value = "id") Long estadoId,
                                            @Valid @RequestBody Tarea tareaDetails) {
 
     	Estado estado = estadosRepository.findById(estadoId)
@@ -49,7 +49,7 @@ public class EstadoController {
     }
 
     @DeleteMapping("/estados/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long estadoId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long estadoId) {
     	Estado tarea = estadosRepository.findById(estadoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Estado", "id", estadoId));
 

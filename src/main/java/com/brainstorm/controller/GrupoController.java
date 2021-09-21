@@ -20,7 +20,7 @@ public class GrupoController {
     GrupoRepository grupoRepository;
 
     @GetMapping("/grupos")
-    public List<Grupo> getAllGrupos() {
+    public List<Grupo> getAll() {
         return grupoRepository.findAll();
     }
 
@@ -30,13 +30,13 @@ public class GrupoController {
     }
 
     @GetMapping("/grupos/{id}")
-    public Grupo getNoteById(@PathVariable(value = "id") Long grupoId) {
+    public Grupo getById(@PathVariable(value = "id") Long grupoId) {
         return grupoRepository.findById(grupoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", grupoId));
     }
 
     @PutMapping("/grupos/{id}")
-    public Grupo updateNote(@PathVariable(value = "id") Long grupoId,
+    public Grupo update(@PathVariable(value = "id") Long grupoId,
                                            @Valid @RequestBody Grupo grupoDetails) {
 
     	Grupo grupo = grupoRepository.findById(grupoId)
@@ -52,7 +52,7 @@ public class GrupoController {
     }
 
     @DeleteMapping("/grupos/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long grupoId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long grupoId) {
     	Grupo grupo = grupoRepository.findById(grupoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", grupoId));
 

@@ -20,23 +20,23 @@ public class SubTareaController {
     SubTareasRepository subTareasRepository;
 
     @GetMapping("/subtareas")
-    public List<SubTarea> getAllSubTareas() {
+    public List<SubTarea> getAll() {
         return subTareasRepository.findAll();
     }
 
     @PostMapping("/subtareas")
-    public SubTarea createNote(@Valid @RequestBody SubTarea subTarea) {
+    public SubTarea create(@Valid @RequestBody SubTarea subTarea) {
         return subTareasRepository.save(subTarea);
     }
 
     @GetMapping("/subtareas/{id}")
-    public SubTarea getNoteById(@PathVariable(value = "id") Long subtareaId) {
+    public SubTarea getById(@PathVariable(value = "id") Long subtareaId) {
         return subTareasRepository.findById(subtareaId)
                 .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subtareaId));
     }
 
     @PutMapping("/subtareas/{id}")
-    public SubTarea updateNote(@PathVariable(value = "id") Long subTareaId,
+    public SubTarea update(@PathVariable(value = "id") Long subTareaId,
                                            @Valid @RequestBody SubTarea tareaDetails) {
 
     	SubTarea subTarea = subTareasRepository.findById(subTareaId)
@@ -56,7 +56,7 @@ public class SubTareaController {
     }
 
     @DeleteMapping("/subtareas/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable(value = "id") Long subTareaId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long subTareaId) {
     	SubTarea tarea = subTareasRepository.findById(subTareaId)
                 .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
 
