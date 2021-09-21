@@ -1,0 +1,8 @@
+auth0:
+  audience: http://brainstorm.com
+spring:
+  security:
+    oauth2:
+        resourceserver:
+            jwt:
+                issuer-uri: https://dev-757ue49g.us.auth0.com/
