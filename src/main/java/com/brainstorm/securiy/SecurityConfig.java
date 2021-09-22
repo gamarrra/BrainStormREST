@@ -17,25 +17,29 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-	
-    @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .mvcMatchers("/api/public").permitAll()
-                .mvcMatchers("/api/private").authenticated()
-                .mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages")
-                .and().cors()
-                .and().oauth2ResourceServer().jwt();
-    }
 
     @Value("${auth0.audience}")
     private String audience;
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuer;
+    
+    @Override
+    public void configure(HttpSecurity http) throws Exception {
+
+        http.authorizeRequests()
+                .mvcMatchers("/api/public").permitAll()
+                .mvcMatchers("/tareas").permitAll()
+                .mvcMatchers("api/tareas").permitAll()
+                .mvcMatchers("/api/private").authenticated()
+                .mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages")
+                .and().cors()
+                .and().oauth2ResourceServer().jwt();
+    }
 
     @Bean
     JwtDecoder jwtDecoder() {
+    	
         NimbusJwtDecoder jwtDecoder = (NimbusJwtDecoder)
                 JwtDecoders.fromOidcIssuerLocation(issuer);
 
@@ -47,6 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         return jwtDecoder;
     }
+    
+
     
 
 }

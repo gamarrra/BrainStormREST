@@ -2,7 +2,6 @@ package com.brainstorm.controller;
 
 import com.brainstorm.exception.ResourceNotFoundException;
 import com.brainstorm.model.SubTarea;
-import com.brainstorm.model.Tarea;
 import com.brainstorm.repository.SubTareasRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
