@@ -29,8 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
                 .mvcMatchers("/api/public").permitAll()
-                .mvcMatchers("/tareas").permitAll()
-                .mvcMatchers("api/tareas").permitAll()
                 .mvcMatchers("/api/private").authenticated()
                 .mvcMatchers("/api/private-scoped").hasAuthority("SCOPE_read:messages")
                 .and().cors()
