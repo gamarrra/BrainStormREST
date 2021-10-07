@@ -10,15 +10,17 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.web.servlet.MockMvc;
-import com.brainstorm.config.SpringConfig;
 import com.brainstorm.model.Tarea;
 import com.brainstorm.repository.TareasRepository;
-import com.brainstorm.service.TareaServiceImpl;
+import com.brainstorm.service.TareaService;
 import static org.mockito.BDDMockito.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
@@ -31,92 +33,36 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.http.HttpStatus;
 
-
+@ActiveProfiles("test")
 @RunWith(SpringRunner.class)
-@WebMvcTest(TareaController.class)
-@AutoConfigureMockMvc
+@SpringBootTest
 class TareaControllerTest {
+	
+    @InjectMocks
+    private TareaController tareaController;
 
-    @Autowired
-    private MockMvc mvc;
-    
-    @Autowired
-    private TareaServiceImpl tareaService;
-    
-    @Autowired
-    private TareasRepository tareaRepository;
-    
+    @Mock
+    private TareaService tareaService;
+
     @Test
     public void givenTareas_whenGetTareas_thenReturnJsonArray()
       throws Exception {
-        
-        Tarea tarea1 = new Tarea();
-        tarea1.setDescripcion("test");
-
-        List<Tarea> allTareas = Arrays.asList(tarea1);
-        
-        tareaRepository.save(tarea1);
-
-        given(tareaService.getAll()).willReturn(allTareas);
-
-        mvc.perform(get("/tareas")
-          .contentType(MediaType.APPLICATION_JSON))
-          .andExpect(status().isOk())
-          .andExpect(jsonPath("$", hasSize(1)))
-          .andExpect(jsonPath("$[0].descripcion", is(tarea1.getDescripcion())));
+    	
+    	Tarea tarea=new Tarea();
+    	tarea.setDescripcion("Test");
+    	tareaController.create(tarea);
+    	
+    	Mockito.when(tareaService.save(tarea)).thenReturn(tarea);
+    	
+    	assertNotNull(tareaController.create(tarea));
+    	assertEquals(tarea.getDescripcion(),"Test");
+    	
+    	
     }
-
-    @Test
-    public void whenPostTarea_thenCreateTarea() throws Exception {
-
-    	Tarea tarea1 = new Tarea();
-    	
-    	tarea1.setDescripcion("Prueba Security");
-    	tarea1.setResponsable(3L);
-    	tarea1.setStatusId(1);
-    	tarea1.setFechaComprometida(new Date(2021-12-10));
-    	tarea1.setPuntaje(3);
-    	tarea1.setPrioridad(1);
-    	tarea1.setIconoId(2);
-    	
-        tareaRepository.save(tarea1);
-    	
-        given(tareaService.save(Mockito.any())).willReturn(tarea1);
-
-        mvc.perform(post("/tareas").contentType(MediaType.APPLICATION_JSON).content("{\r\n"
-        		+ "    \"descripcion\":\"Prueba Security\",\r\n"
-        		+ "    \"responsable\":3,\r\n"
-        		+ "    \"status\":1,\r\n"
-        		+ "    \"fechaComprometida\":\"2021-12-10\",\r\n"
-        		+ "    \"puntaje\":3,\r\n"
-        		+ "    \"prioridad\":1,\r\n"
-        		+ "    \"iconoId\":2\r\n"
-        		+ "}")).andExpect(status().isCreated()).andExpect(jsonPath("$.descripcion", is("Prueba Security")));
-        verify(tareaService, VerificationModeFactory.times(1)).save(Mockito.any());
-        reset(tareaService);
-    }
-
-	@Test
-	void testGetById() throws Exception {
-        String response = mvc.perform(get("http://localhost:8080/tareas", 1))
-                .andExpect(status().is(HttpStatus.OK.value()))
-                .andExpect(jsonPath("$.descripcion", is("Crear Entidades")))
-                .andReturn().getResponse().getContentAsString();
- 
-        assertNotNull(response);
-	}
-
-	@Test
-	void testDelete() throws Exception {
-        String response = mvc.perform(delete("http://localhost:8080/tareas", 1))
-                .andExpect(status().is(HttpStatus.OK.value()))
-                .andReturn().getResponse().getContentAsString();
- 
-        assertNotNull(response);
-	}
 
 }
