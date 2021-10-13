@@ -22,6 +22,16 @@ public class Grupo {
 	private String nombre;
 
 	private int iconoId;
+	
+	private String descripcion;
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 
 	public Long getGrupoId() {
 		return grupoId;
