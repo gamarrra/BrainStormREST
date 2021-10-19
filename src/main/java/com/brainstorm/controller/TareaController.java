@@ -4,6 +4,8 @@ import com.brainstorm.exception.ResourceNotFoundException;
 import com.brainstorm.model.Tarea;
 import com.brainstorm.repository.TareasRepository;
 import com.brainstorm.service.TareaService;
+import com.brainstorm.exception.InvalidRequestException;
+import javassist.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
@@ -27,6 +30,9 @@ public class TareaController {
 
     @PostMapping("/tareas")
     public Tarea create(@Valid @RequestBody Tarea tarea) {
+    	if (tarea == null || tarea.getDescripcion() == null) {
+            throw new InvalidRequestException("La Tarea o su descripción no pueden ser nulos");
+        }
         return tareaService.save(tarea);
     }
 
@@ -38,28 +44,34 @@ public class TareaController {
 
     @PutMapping("/tareas/{id}")
     public Tarea update(@PathVariable(value = "id") Long tareaId,
-                                           @Valid @RequestBody Tarea tareaDetails) {
+                                           @Valid @RequestBody Tarea tareaDetails) throws NotFoundException{
 
-        Tarea tarea = tareaService.getById(tareaId)
-                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
+    	if (tareaDetails == null || tareaDetails.getTareaId() == null) {
+            throw new InvalidRequestException("La Tarea o la tareaId no pueden ser nulos");
+        }
+        Optional<Tarea> optionalTarea = tareaService.getById(tareaDetails.getTareaId());
+        if (optionalTarea.isEmpty()) {
+            throw new NotFoundException("Tarea con ID " + tareaDetails.getTareaId() + " no existe.");
+        }
+        Tarea tareaExistente = optionalTarea.get();
 
-        tarea.setDescripcion(tareaDetails.getDescripcion());
-        tarea.setResponsable(tareaDetails.getResponsable());
-        tarea.setStatusId(tareaDetails.getStatusId());
-        tarea.setFechaComprometida(tareaDetails.getFechaComprometida());
-        tarea.setPuntaje(tareaDetails.getPuntaje());
-        tarea.setPrioridad(tareaDetails.getPrioridad());
-        tarea.setIconoId(tareaDetails.getIconoId());
+        tareaExistente.setDescripcion(tareaDetails.getDescripcion());
+        tareaExistente.setResponsable(tareaDetails.getResponsable());
+        tareaExistente.setStatusId(tareaDetails.getStatusId());
+        tareaExistente.setFechaComprometida(tareaDetails.getFechaComprometida());
+        tareaExistente.setPuntaje(tareaDetails.getPuntaje());
+        tareaExistente.setPrioridad(tareaDetails.getPrioridad());
+        tareaExistente.setIconoId(tareaDetails.getIconoId());
 
-        Tarea tareaAcutalizada = tareaService.save(tarea);
+        Tarea tareaAcutalizada = tareaService.save(tareaExistente);
         return tareaAcutalizada;
     }
 
     @DeleteMapping("/tareas/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long tareaId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long tareaId){
         Tarea tarea = tareaService.getById(tareaId)
                 .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
-
+        
         tareaService.delete(tarea);
 
         return ResponseEntity.ok().build();

@@ -1,4 +1,4 @@
-package com.brainstorm.runtime;
+package com.brainstorm.controller;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 @ActiveProfiles("test")
 @SpringBootTest
-class ExchangeTest {
+class RestTemplateTest {
 	
 	@Mock
 	private RestTemplate restTemplate;
@@ -42,12 +42,9 @@ class ExchangeTest {
 
 	@Test
 	void testCall() {
-		
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-		
 		Mockito.when(restTemplate.postForEntity("http://localhost:8080/tareas", request, String.class)).thenReturn(response);
-		
 		assertEquals(200,response.getStatusCodeValue());
 		
 	}
