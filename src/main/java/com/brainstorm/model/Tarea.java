@@ -18,6 +18,7 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
 public class Tarea {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tareaId;
@@ -46,6 +47,18 @@ public class Tarea {
     private int prioridad;
     
     private int iconoId;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "grupo.grupoId")
+	private Long grupoId;
+    
+    public Long getGrupoId() {
+		return grupoId;
+	}
+
+	public void setGrupoId(Long grupoId) {
+		this.grupoId = grupoId;
+	}
 
 	public Long getTareaId() {
 		return tareaId;

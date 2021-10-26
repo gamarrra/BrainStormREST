@@ -61,6 +61,7 @@ public class TareaController {
         tareaExistente.setFechaComprometida(tareaDetails.getFechaComprometida());
         tareaExistente.setPuntaje(tareaDetails.getPuntaje());
         tareaExistente.setPrioridad(tareaDetails.getPrioridad());
+        tareaExistente.setGrupoId(tareaDetails.getGrupoId());
         tareaExistente.setIconoId(tareaDetails.getIconoId());
 
         Tarea tareaAcutalizada = tareaService.save(tareaExistente);

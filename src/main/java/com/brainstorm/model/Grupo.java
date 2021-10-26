@@ -3,6 +3,9 @@ package com.brainstorm.model;
 
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -10,13 +13,15 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "grupos")
 @EntityListeners(AuditingEntityListener.class)
 public class Grupo {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long grupoId;
 
 	private Long creadorId;
-
-	private Long tareaId;
+	
+	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, orphanRemoval = false)
+    private List<Tarea> listTareas = new ArrayList<>();
 
 	@NotBlank
 	private String nombre;
@@ -49,14 +54,6 @@ public class Grupo {
 		this.creadorId = creadorId;
 	}
 
-	public Long getTareaId() {
-		return tareaId;
-	}
-
-	public void setTareaId(Long tareaId) {
-		this.tareaId = tareaId;
-	}
-
 	public String getNombre() {
 		return nombre;
 	}
@@ -71,6 +68,14 @@ public class Grupo {
 
 	public void setIconoId(int iconoId) {
 		this.iconoId = iconoId;
+	}
+	
+    public List<Tarea> getListTareas() {
+		return listTareas;
+	}
+
+	public void setListTareas(List<Tarea> listTareas) {
+		this.listTareas = listTareas;
 	}
 
 
