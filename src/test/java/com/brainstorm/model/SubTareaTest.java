@@ -49,18 +49,6 @@ class SubTareaTest {
 	}
 
 	@Test
-	void testGetResponsable() {
-		subTarea.setResponsable(0L);
-		assertNotNull(subTarea.getResponsable());
-	}
-
-	@Test
-	void testSetResponsable() {
-		subTarea.setResponsable(0L);
-		assertNotNull(subTarea.getResponsable());
-	}
-
-	@Test
 	void testGetStatusId() {
 		subTarea.setStatusId(1);
 		assertNotNull(subTarea.getStatusId());

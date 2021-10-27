@@ -24,8 +24,6 @@ public class SubTarea {
 
     @NotBlank
     private String descripcion;
-
-    private Long responsable;   
     
     private int statusId;
 
@@ -48,6 +46,23 @@ public class SubTarea {
     private int iconoId;
     
     private long tareaId;
+    
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioCreadorSubTarea;  
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioResponsableSubTarea;  
+    
+    public Tarea getTarea() {
+		return tareaOrigen;
+	}
+
+	public void setTarea(Tarea tarea) {
+		this.tareaOrigen = tarea;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Tarea tareaOrigen;
 
 
 	public long getTareaId() {
@@ -72,14 +87,6 @@ public class SubTarea {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public Long getResponsable() {
-		return responsable;
-	}
-
-	public void setResponsable(Long responsable) {
-		this.responsable = responsable;
 	}
 
 	public int getStatusId() {

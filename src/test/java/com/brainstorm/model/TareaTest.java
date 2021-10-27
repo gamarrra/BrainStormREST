@@ -38,30 +38,6 @@ class TareaTest {
 	}
 
 	@Test
-	void testGetResponsable() {
-		tarea.setResponsable(0L);
-		assertNotNull(tarea.getResponsable());
-	}
-
-	@Test
-	void testSetResponsable() {
-		tarea.setResponsable(0L);
-		assertNotNull(tarea.getResponsable());
-	}
-
-	@Test
-	void testGetStatusId() {
-		tarea.setStatusId(1);
-		assertNotNull(tarea.getStatusId());
-	}
-
-	@Test
-	void testSetStatusId() {
-		tarea.setStatusId(1);
-		assertNotNull(tarea.getStatusId());
-	}
-
-	@Test
 	void testGetFechaComprometida() {
 		tarea.setFechaComprometida(date);
 		assertNotNull(tarea.getFechaComprometida());

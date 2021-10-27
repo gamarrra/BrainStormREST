@@ -3,18 +3,15 @@ package com.brainstorm.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-
-
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
 @Table(name = "tareas")
-@EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
 public class Tarea {
@@ -26,9 +23,14 @@ public class Tarea {
     @NotBlank
     private String descripcion;
 
-    private Long responsable;   
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioCreador;  
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioResponsable;   
     
-    private int statusId;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Estado estado;
 
     private Date fechaComprometida;
 
@@ -48,16 +50,26 @@ public class Tarea {
     
     private int iconoId;
     
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grupo.grupoId")
-	private Long grupoId;
-    
-    public Long getGrupoId() {
-		return grupoId;
+	public List<SubTarea> getListSubTareas() {
+		return listSubTareas;
 	}
 
-	public void setGrupoId(Long grupoId) {
-		this.grupoId = grupoId;
+	public void setListSubTareas(List<SubTarea> listSubTareas) {
+		this.listSubTareas = listSubTareas;
+	}
+
+	@OneToMany(mappedBy = "tareaOrigen", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<SubTarea> listSubTareas = new ArrayList<>();
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+	private Grupo grupo;
+    
+    public Grupo getGrupoId() {
+		return grupo;
+	}
+
+	public void setGrupoId(Grupo grupo) {
+		this.grupo = grupo;
 	}
 
 	public Long getTareaId() {
@@ -74,22 +86,6 @@ public class Tarea {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public Long getResponsable() {
-		return responsable;
-	}
-
-	public void setResponsable(Long responsable) {
-		this.responsable = responsable;
-	}
-
-	public int getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
 	}
 
 	public Date getFechaComprometida() {

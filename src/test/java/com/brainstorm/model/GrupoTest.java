@@ -32,17 +32,6 @@ class GrupoTest {
 		assertNotNull(grupo.getCreadorId());
 	}
 
-	@Test
-	void testGetTareaId() {
-		grupo.setTareaId(0L);
-		assertNotNull(grupo.getTareaId());
-	}
-
-	@Test
-	void testSetTareaId() {
-		grupo.setTareaId(0L);
-		assertNotNull(grupo.getTareaId());
-	}
 
 	@Test
 	void testGetNombre() {

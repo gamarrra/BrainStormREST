@@ -1,7 +1,6 @@
 package com.brainstorm.model;
 
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "grupos")
-@EntityListeners(AuditingEntityListener.class)
 public class Grupo {
 	
 	@Id
@@ -20,7 +18,7 @@ public class Grupo {
 
 	private Long creadorId;
 	
-	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, orphanRemoval = false)
+	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareas = new ArrayList<>();
 
 	@NotBlank

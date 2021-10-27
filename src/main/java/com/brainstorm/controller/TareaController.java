@@ -56,8 +56,6 @@ public class TareaController {
         Tarea tareaExistente = optionalTarea.get();
 
         tareaExistente.setDescripcion(tareaDetails.getDescripcion());
-        tareaExistente.setResponsable(tareaDetails.getResponsable());
-        tareaExistente.setStatusId(tareaDetails.getStatusId());
         tareaExistente.setFechaComprometida(tareaDetails.getFechaComprometida());
         tareaExistente.setPuntaje(tareaDetails.getPuntaje());
         tareaExistente.setPrioridad(tareaDetails.getPrioridad());

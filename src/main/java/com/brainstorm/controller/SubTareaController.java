@@ -42,7 +42,6 @@ public class SubTareaController {
                 .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
 
     	subTarea.setDescripcion(tareaDetails.getDescripcion());
-    	subTarea.setResponsable(tareaDetails.getResponsable());
     	subTarea.setStatusId(tareaDetails.getStatusId());
     	subTarea.setFechaComprometida(tareaDetails.getFechaComprometida());
     	subTarea.setPuntaje(tareaDetails.getPuntaje());

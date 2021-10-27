@@ -7,7 +7,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "usuarios")
@@ -30,6 +32,18 @@ public class Usuario {
 	private boolean usuarioActivo;
 	
 	private boolean usuarioFullAccess;
+	
+	@OneToMany(mappedBy = "usuarioCreador", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<Tarea> listTareasCreadas = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "usuarioResponsable", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<Tarea> listTareasResponsable = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "usuarioCreadorSubTarea", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<SubTarea> listSubTareasCreadas = new ArrayList<>();
+	
+	@OneToMany(mappedBy = "usuarioResponsableSubTarea", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    private List<SubTarea> listSubTareasResponsable = new ArrayList<>();
 
 	@NotBlank
 	private String email;

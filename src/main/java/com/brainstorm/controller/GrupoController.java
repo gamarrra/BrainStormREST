@@ -43,7 +43,7 @@ public class GrupoController {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", grupoId));
 
     	grupo.setCreadorId(grupoDetails.getCreadorId());
-    	grupo.setTareaId(grupoDetails.getTareaId());
+    	grupo.setListTareas(grupoDetails.getListTareas());
     	grupo.setNombre(grupoDetails.getNombre());
     	grupo.setIconoId(grupoDetails.getIconoId());
     	grupo.setDescripcion(grupoDetails.getDescripcion());
