@@ -56,12 +56,16 @@ public class TareaController {
         Tarea tareaExistente = optionalTarea.get();
 
         tareaExistente.setDescripcion(tareaDetails.getDescripcion());
+        tareaExistente.setUsuarioCreador(tareaDetails.getUsuarioCreador());
+        tareaExistente.setUsuarioResponsable(tareaDetails.getUsuarioResponsable());
+        tareaExistente.setEstado(tareaDetails.getEstado());
+        tareaExistente.setListSubTareas(tareaDetails.getListSubTareas());
+        tareaExistente.setGrupo(tareaDetails.getGrupo());
         tareaExistente.setFechaComprometida(tareaDetails.getFechaComprometida());
         tareaExistente.setPuntaje(tareaDetails.getPuntaje());
         tareaExistente.setPrioridad(tareaDetails.getPrioridad());
-        tareaExistente.setGrupoId(tareaDetails.getGrupoId());
-        tareaExistente.setIconoId(tareaDetails.getIconoId());
-
+        tareaExistente.setIconoId(tareaDetails.getIconoId());        
+        
         Tarea tareaAcutalizada = tareaService.save(tareaExistente);
         return tareaAcutalizada;
     }

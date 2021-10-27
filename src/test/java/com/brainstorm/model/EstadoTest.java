@@ -21,16 +21,4 @@ class EstadoTest {
 		assertNotNull(estado.getEstadoId());
 	}
 
-	@Test
-	void testGetDescripcion() {
-		estado.setDescripcion("");
-		assertNotNull(estado.getDescripcion());
-	}
-
-	@Test
-	void testSetDescripcion() {
-		estado.setDescripcion("");
-		assertNotNull(estado.getDescripcion());
-	}
-
 }

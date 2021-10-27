@@ -42,11 +42,12 @@ public class GrupoController {
     	Grupo grupo = grupoRepository.findById(grupoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", grupoId));
 
-    	grupo.setCreadorId(grupoDetails.getCreadorId());
-    	grupo.setListTareas(grupoDetails.getListTareas());
     	grupo.setNombre(grupoDetails.getNombre());
+    	grupo.setUsuarioCreadorGrupo(grupoDetails.getUsuarioCreadorGrupo());
+    	grupo.setListTareas(grupoDetails.getListTareas());
     	grupo.setIconoId(grupoDetails.getIconoId());
     	grupo.setDescripcion(grupoDetails.getDescripcion());
+    	
     	Grupo grupoActualizado = grupoRepository.save(grupo);
         return grupoActualizado;
     }

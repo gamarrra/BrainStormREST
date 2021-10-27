@@ -18,16 +18,13 @@ import java.util.Date;
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
 public class SubTarea {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long subTareaId;
 
-    @NotBlank
+	@NotBlank
     private String descripcion;
-    
-    private int statusId;
-
-    private Date fechaComprometida;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -39,41 +36,29 @@ public class SubTarea {
     @LastModifiedDate
     private Date updatedAt;
     
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioCreadorSubTarea;  
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioResponsableSubTarea; 
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Tarea tareaOrigen;
+
+	@ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Estado estado;
+    
     private int puntaje;
     
     private int prioridad;
     
     private int iconoId;
     
-    private long tareaId;
+    private Date fechaComprometida;
     
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioCreadorSubTarea;  
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioResponsableSubTarea;  
     
-    public Tarea getTarea() {
-		return tareaOrigen;
-	}
-
-	public void setTarea(Tarea tarea) {
-		this.tareaOrigen = tarea;
-	}
-
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Tarea tareaOrigen;
-
-
-	public long getTareaId() {
-		return tareaId;
-	}
-
-	public void setTareaId(long tareaId) {
-		this.tareaId = tareaId;
-	}
-
-	public Long getSubTareaId() {
+    
+    public Long getSubTareaId() {
 		return subTareaId;
 	}
 
@@ -87,22 +72,6 @@ public class SubTarea {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public int getStatusId() {
-		return statusId;
-	}
-
-	public void setStatusId(int statusId) {
-		this.statusId = statusId;
-	}
-
-	public Date getFechaComprometida() {
-		return fechaComprometida;
-	}
-
-	public void setFechaComprometida(Date fechaComprometida) {
-		this.fechaComprometida = fechaComprometida;
 	}
 
 	public Date getCreatedAt() {
@@ -119,6 +88,30 @@ public class SubTarea {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public Usuario getUsuarioCreadorSubTarea() {
+		return usuarioCreadorSubTarea;
+	}
+
+	public void setUsuarioCreadorSubTarea(Usuario usuarioCreadorSubTarea) {
+		this.usuarioCreadorSubTarea = usuarioCreadorSubTarea;
+	}
+
+	public Usuario getUsuarioResponsableSubTarea() {
+		return usuarioResponsableSubTarea;
+	}
+
+	public void setUsuarioResponsableSubTarea(Usuario usuarioResponsableSubTarea) {
+		this.usuarioResponsableSubTarea = usuarioResponsableSubTarea;
+	}
+
+	public Tarea getTareaOrigen() {
+		return tareaOrigen;
+	}
+
+	public void setTareaOrigen(Tarea tareaOrigen) {
+		this.tareaOrigen = tareaOrigen;
 	}
 
 	public int getPuntaje() {
@@ -144,6 +137,21 @@ public class SubTarea {
 	public void setIconoId(int iconoId) {
 		this.iconoId = iconoId;
 	}
-    
+
+	public Date getFechaComprometida() {
+		return fechaComprometida;
+	}
+
+	public void setFechaComprometida(Date fechaComprometida) {
+		this.fechaComprometida = fechaComprometida;
+	}
+	
+    public Estado getEstadoSubtarea() {
+		return estado;
+	}
+
+	public void setEstadoSubtarea(Estado estadoSubtarea) {
+		this.estado = estadoSubtarea;
+	}
 
 }

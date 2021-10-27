@@ -12,17 +12,6 @@ class SubTareaTest {
 	private SubTarea subTarea =new SubTarea();
 	
 	private Date date=Calendar.getInstance().getTime();
-	
-	void testGetTareaId() {
-		subTarea.setTareaId(0L);
-		assertNotNull(subTarea.getTareaId());
-	}
-
-	@Test
-	void testSetTareaId() {
-		subTarea.setTareaId(0L);
-		assertNotNull(subTarea.getTareaId());
-	}
 
 	@Test
 	void testGetSubTareaId() {
@@ -46,18 +35,6 @@ class SubTareaTest {
 	void testSetDescripcion() {
 		subTarea.setDescripcion("");
 		assertNotNull(subTarea.getDescripcion());
-	}
-
-	@Test
-	void testGetStatusId() {
-		subTarea.setStatusId(1);
-		assertNotNull(subTarea.getStatusId());
-	}
-
-	@Test
-	void testSetStatusId() {
-		subTarea.setStatusId(1);
-		assertNotNull(subTarea.getStatusId());
 	}
 
 	@Test

@@ -36,18 +36,20 @@ public class SubTareaController {
 
     @PutMapping("/subtareas/{id}")
     public SubTarea update(@PathVariable(value = "id") Long subTareaId,
-                                           @Valid @RequestBody SubTarea tareaDetails) {
+                                           @Valid @RequestBody SubTarea subTareaDetails) {
 
     	SubTarea subTarea = subTareasRepository.findById(subTareaId)
                 .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
 
-    	subTarea.setDescripcion(tareaDetails.getDescripcion());
-    	subTarea.setStatusId(tareaDetails.getStatusId());
-    	subTarea.setFechaComprometida(tareaDetails.getFechaComprometida());
-    	subTarea.setPuntaje(tareaDetails.getPuntaje());
-    	subTarea.setPrioridad(tareaDetails.getPrioridad());
-    	subTarea.setIconoId(tareaDetails.getIconoId());
-    	subTarea.setTareaId(tareaDetails.getTareaId());
+    	subTarea.setDescripcion(subTareaDetails.getDescripcion());
+    	subTarea.setUsuarioCreadorSubTarea(subTareaDetails.getUsuarioCreadorSubTarea());
+    	subTarea.setUsuarioResponsableSubTarea(subTareaDetails.getUsuarioResponsableSubTarea());
+    	subTarea.setTareaOrigen(subTareaDetails.getTareaOrigen());
+    	subTarea.setPuntaje(subTareaDetails.getPuntaje());
+    	subTarea.setPrioridad(subTareaDetails.getPrioridad());
+    	subTarea.setIconoId(subTareaDetails.getIconoId());
+    	subTarea.setFechaComprometida(subTareaDetails.getFechaComprometida());
+    	subTarea.setEstadoSubtarea(subTareaDetails.getEstadoSubtarea());
 
         SubTarea tareaAcutalizada = subTareasRepository.save(subTarea);
         return tareaAcutalizada;

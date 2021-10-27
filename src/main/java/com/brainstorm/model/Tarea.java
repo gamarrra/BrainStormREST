@@ -20,7 +20,7 @@ public class Tarea {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tareaId;
 
-    @NotBlank
+	@NotBlank
     private String descripcion;
 
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -32,8 +32,6 @@ public class Tarea {
     @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Estado estado;
 
-    private Date fechaComprometida;
-
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -44,35 +42,23 @@ public class Tarea {
     @LastModifiedDate
     private Date updatedAt;
     
-    private int puntaje;
-    
-    private int prioridad;
-    
-    private int iconoId;
-    
-	public List<SubTarea> getListSubTareas() {
-		return listSubTareas;
-	}
-
-	public void setListSubTareas(List<SubTarea> listSubTareas) {
-		this.listSubTareas = listSubTareas;
-	}
-
 	@OneToMany(mappedBy = "tareaOrigen", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareas = new ArrayList<>();
     
     @ManyToOne(fetch = FetchType.LAZY)
 	private Grupo grupo;
     
-    public Grupo getGrupoId() {
-		return grupo;
-	}
+    private Date fechaComprometida;
+    
+    private int puntaje;
+    
+    private int prioridad;
+    
+    private int iconoId;
+    
+    
 
-	public void setGrupoId(Grupo grupo) {
-		this.grupo = grupo;
-	}
-
-	public Long getTareaId() {
+    public Long getTareaId() {
 		return tareaId;
 	}
 
@@ -88,12 +74,28 @@ public class Tarea {
 		this.descripcion = descripcion;
 	}
 
-	public Date getFechaComprometida() {
-		return fechaComprometida;
+	public Usuario getUsuarioCreador() {
+		return usuarioCreador;
 	}
 
-	public void setFechaComprometida(Date fechaComprometida) {
-		this.fechaComprometida = fechaComprometida;
+	public void setUsuarioCreador(Usuario usuarioCreador) {
+		this.usuarioCreador = usuarioCreador;
+	}
+
+	public Usuario getUsuarioResponsable() {
+		return usuarioResponsable;
+	}
+
+	public void setUsuarioResponsable(Usuario usuarioResponsable) {
+		this.usuarioResponsable = usuarioResponsable;
+	}
+
+	public Estado getEstado() {
+		return estado;
+	}
+
+	public void setEstado(Estado estado) {
+		this.estado = estado;
 	}
 
 	public Date getCreatedAt() {
@@ -110,6 +112,30 @@ public class Tarea {
 
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
+	}
+
+	public List<SubTarea> getListSubTareas() {
+		return listSubTareas;
+	}
+
+	public void setListSubTareas(List<SubTarea> listSubTareas) {
+		this.listSubTareas = listSubTareas;
+	}
+
+	public Grupo getGrupo() {
+		return grupo;
+	}
+
+	public void setGrupo(Grupo grupo) {
+		this.grupo = grupo;
+	}
+
+	public Date getFechaComprometida() {
+		return fechaComprometida;
+	}
+
+	public void setFechaComprometida(Date fechaComprometida) {
+		this.fechaComprometida = fechaComprometida;
 	}
 
 	public int getPuntaje() {
@@ -136,5 +162,4 @@ public class Tarea {
 		this.iconoId = iconoId;
 	}
     
-
 }

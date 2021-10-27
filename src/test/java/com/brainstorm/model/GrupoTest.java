@@ -21,19 +21,6 @@ class GrupoTest {
 	}
 
 	@Test
-	void testGetCreadorId() {
-		grupo.setCreadorId(0L);
-		assertNotNull(grupo.getCreadorId());
-	}
-
-	@Test
-	void testSetCreadorId() {
-		grupo.setCreadorId(0L);
-		assertNotNull(grupo.getCreadorId());
-	}
-
-
-	@Test
 	void testGetNombre() {
 		grupo.setNombre("");
 		assertNotNull(grupo.getNombre());

@@ -12,44 +12,34 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "grupos")
 public class Grupo {
 	
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long grupoId;
-
-	private Long creadorId;
+	
+	@NotBlank
+	private String nombre;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	private Usuario usuarioCreadorGrupo;  
 	
 	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareas = new ArrayList<>();
 
-	@NotBlank
-	private String nombre;
-
 	private int iconoId;
 	
 	private String descripcion;
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}
-
+	
+	
+	
+	
 	public Long getGrupoId() {
 		return grupoId;
 	}
 
 	public void setGrupoId(Long grupoId) {
 		this.grupoId = grupoId;
-	}
-
-	public Long getCreadorId() {
-		return creadorId;
-	}
-
-	public void setCreadorId(Long creadorId) {
-		this.creadorId = creadorId;
 	}
 
 	public String getNombre() {
@@ -60,15 +50,15 @@ public class Grupo {
 		this.nombre = nombre;
 	}
 
-	public int getIconoId() {
-		return iconoId;
+	public Usuario getUsuarioCreadorGrupo() {
+		return usuarioCreadorGrupo;
 	}
 
-	public void setIconoId(int iconoId) {
-		this.iconoId = iconoId;
+	public void setUsuarioCreadorGrupo(Usuario usuarioCreadorGrupo) {
+		this.usuarioCreadorGrupo = usuarioCreadorGrupo;
 	}
-	
-    public List<Tarea> getListTareas() {
+
+	public List<Tarea> getListTareas() {
 		return listTareas;
 	}
 
@@ -76,5 +66,20 @@ public class Grupo {
 		this.listTareas = listTareas;
 	}
 
+	public int getIconoId() {
+		return iconoId;
+	}
+
+	public void setIconoId(int iconoId) {
+		this.iconoId = iconoId;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}	
 
 }

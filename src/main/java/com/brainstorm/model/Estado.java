@@ -16,13 +16,15 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Table(name = "estados")
 public class Estado {
 	
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long estadoId;
-	
+
 	@Column(name = "estado", nullable = false, length = 100)
     private String estado;
-
+	
+	
 	public Long getEstadoId() {
 		return estadoId;
 	}
@@ -30,14 +32,15 @@ public class Estado {
 	public void setEstadoId(Long estadoId) {
 		this.estadoId = estadoId;
 	}
-
-	public String getDescripcion() {
+	
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setDescripcion(String descripcion) {
-		this.estado = descripcion;
+	public void setEstado(String estado) {
+		this.estado = estado;
 	}
+
     
     
 

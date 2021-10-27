@@ -38,12 +38,12 @@ public class EstadoController {
 
     @PutMapping("/estados/{id}")
     public Estado update(@PathVariable(value = "id") Long estadoId,
-                                           @Valid @RequestBody Tarea tareaDetails) {
+                                           @Valid @RequestBody Estado estadoDetail) {
 
     	Estado estado = estadosRepository.findById(estadoId)
                 .orElseThrow(() -> new ResourceNotFoundException("Estado", "id", estadoId));
 
-    	estado.setDescripcion(tareaDetails.getDescripcion());
+    	estado.setEstado(estadoDetail.getEstado());
 
         Estado estadoActualizado = estadosRepository.save(estado);
         return estadoActualizado;
