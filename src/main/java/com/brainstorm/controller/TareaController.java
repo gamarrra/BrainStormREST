@@ -24,8 +24,8 @@ public class TareaController {
     private TareaService tareaService;
 
     @GetMapping("/tareas")
-    public List<Tarea> getAll() {
-        return tareaService.getAll();
+    public List<Tarea> SearchAll() {
+        return tareaService.SearchAll();
     }
 
     @PostMapping("/tareas")
@@ -79,4 +79,10 @@ public class TareaController {
 
         return ResponseEntity.ok().build();
     }
+    
+    @GetMapping("/tareasGrupo")
+    public List<Tarea> GetTaskGroup() {
+        return tareaService.GetTaskGroup();
+    }
+
 }

@@ -37,4 +37,14 @@ public class TareaServiceImpl implements TareaService {
 	public void delete(Tarea tarea) {
 		tareaRepository.delete(tarea);
 	}
+	
+	@Override 
+	public List<Tarea>SearchAll(){
+		return tareaRepository.SearchAll();
+	}
+	
+	@Override
+	public List<Tarea>GetTaskGroup(){
+		return tareaRepository.GetTaskGroup();
+	}
 }

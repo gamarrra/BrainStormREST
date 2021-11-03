@@ -1,6 +1,9 @@
 package com.brainstorm.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
@@ -42,9 +45,11 @@ public class Tarea {
     @LastModifiedDate
     private Date updatedAt;
     
+    @JsonManagedReference
 	@OneToMany(mappedBy = "tareaOrigen", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareas = new ArrayList<>();
     
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
 	private Grupo grupo;
     
@@ -57,7 +62,6 @@ public class Tarea {
     private int iconoId;
     
     
-
     public Long getTareaId() {
 		return tareaId;
 	}

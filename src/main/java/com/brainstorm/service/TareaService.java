@@ -17,4 +17,7 @@ public interface TareaService {
 	
 	public void delete(Tarea tarea);
 
+	public List <Tarea> SearchAll();
+	
+	public List <Tarea> GetTaskGroup();
 }
