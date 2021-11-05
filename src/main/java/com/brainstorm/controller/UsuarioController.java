@@ -69,15 +69,16 @@ public class UsuarioController {
 		List<Usuario> list = usuarioRepository.findAll();
 		Usuario userToSave = new Usuario();
 		boolean exists = false;
-
-		for (Usuario user : list) {
-			if (user.getEmail() == email) {
+		
+		 for (int i=0;i<list.size();i++) {
+			userToSave = list.get(i);
+			if (userToSave.getEmail() == email) {
 				exists = true;
-				userToSave=user;
+				break;
 			}
 		}
-		if (exists == false) {
 
+		if (exists == false) {
 			List<Grupo> listGrupos = new ArrayList<>();
 			List<Tarea> listTareasCreadas = new ArrayList<>();
 			List<Tarea> listTareasResponsable = new ArrayList<>();
