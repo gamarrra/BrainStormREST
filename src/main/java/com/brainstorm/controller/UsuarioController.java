@@ -30,17 +30,6 @@ public class UsuarioController {
 		return usuarioRepository.findAll();
 	}
 
-	@PostMapping("/usuarios")
-	public Usuario create(@Valid @RequestBody Usuario usuario) {
-		return usuarioRepository.save(usuario);
-	}
-
-	@GetMapping("/usuarios/{id}")
-	public Usuario getById(@PathVariable(value = "id") Long usuarioId) {
-		return usuarioRepository.findById(usuarioId)
-				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
-	}
-
 	@PutMapping("/usuarios/{id}")
 	public Usuario update(@PathVariable(value = "id") Long usuarioId, @Valid @RequestBody Usuario usuarioDetails) {
 
@@ -74,7 +63,7 @@ public class UsuarioController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PutMapping("/usuarios/{email}")
+	@GetMapping("/usuarios/{email}")
 	public Usuario createIfNotExits(@PathVariable(value = "email") String email) {
 
 		List<Usuario> list = usuarioRepository.findAll();
