@@ -2,6 +2,8 @@ package com.brainstorm.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -37,16 +39,19 @@ public class SubTarea {
     @LastModifiedDate
     private Date updatedAt;
     
+    @JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioCreadorSubTarea;  
 	
+    @JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioResponsableSubTarea; 
 	
-    @JsonBackReference
+    @JsonManagedReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Tarea tareaOrigen;
 
+    @JsonManagedReference
 	@ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Estado estado;
     

@@ -8,6 +8,7 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -23,10 +24,11 @@ public class Grupo {
 	@NotBlank
 	private String nombre;
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioCreadorGrupo;  
 	
-    @JsonManagedReference	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareas = new ArrayList<>();
 

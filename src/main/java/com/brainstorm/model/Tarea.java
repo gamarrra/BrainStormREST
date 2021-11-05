@@ -26,9 +26,11 @@ public class Tarea {
 	@NotBlank
     private String descripcion;
 
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioCreador;  
 	
+	@JsonBackReference
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioResponsable;   
     

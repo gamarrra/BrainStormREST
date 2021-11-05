@@ -62,17 +62,8 @@ public class GrupoController {
         return ResponseEntity.ok().build();
     }
     
-    @PostMapping("/grupos/{email}")
-    public Grupo createNote(@Valid @RequestBody Grupo grupo, @PathVariable(value = "email") String email) {
-		Usuario userToSave = new Usuario();
-		List<Usuario> list = usuarioRepository.findAll();
-		 for (int i=0;i<list.size();i++) {
-			userToSave = list.get(i);
-			if (userToSave.getEmail() == email) {
-				grupo.setUsuarioCreadorGrupo(userToSave);
-				break;
-			}
-		}
+    @PostMapping("/grupos")
+    public Grupo createNote(@Valid @RequestBody Grupo grupo) {
         return grupoRepository.save(grupo);
     }
 }

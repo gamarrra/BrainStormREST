@@ -1,6 +1,9 @@
 package com.brainstorm.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -25,18 +28,23 @@ public class Usuario {
 	@NotBlank
 	private String nombreApellido;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "usuarioCreadorGrupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Grupo> listGrupos = new ArrayList<>();
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "usuarioCreador", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareasCreadas = new ArrayList<>();
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "usuarioResponsable", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareasResponsable = new ArrayList<>();
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "usuarioCreadorSubTarea", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareasCreadas = new ArrayList<>();
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "usuarioResponsableSubTarea", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareasResponsable = new ArrayList<>();
 	
