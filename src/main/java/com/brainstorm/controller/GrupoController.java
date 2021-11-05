@@ -2,7 +2,9 @@ package com.brainstorm.controller;
 
 import com.brainstorm.exception.ResourceNotFoundException;
 import com.brainstorm.model.Grupo;
+import com.brainstorm.model.Usuario;
 import com.brainstorm.repository.GrupoRepository;
+import com.brainstorm.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +20,13 @@ public class GrupoController {
 	
     @Autowired
     GrupoRepository grupoRepository;
+    
+	@Autowired
+	UsuarioRepository usuarioRepository;
 
     @GetMapping("/grupos")
     public List<Grupo> getAll() {
         return grupoRepository.findAll();
-    }
-
-    @PostMapping("/grupos")
-    public Grupo createNote(@Valid @RequestBody Grupo grupo) {
-        return grupoRepository.save(grupo);
     }
 
     @GetMapping("/grupos/{id}")
@@ -60,5 +60,19 @@ public class GrupoController {
         grupoRepository.delete(grupo);
 
         return ResponseEntity.ok().build();
+    }
+    
+    @PostMapping("/grupos/{email}")
+    public Grupo createNote(@Valid @RequestBody Grupo grupo, @PathVariable(value = "email") String email) {
+		Usuario userToSave = new Usuario();
+		List<Usuario> list = usuarioRepository.findAll();
+		 for (int i=0;i<list.size();i++) {
+			userToSave = list.get(i);
+			if (userToSave.getEmail() == email) {
+				grupo.setUsuarioCreadorGrupo(userToSave);
+				break;
+			}
+		}
+        return grupoRepository.save(grupo);
     }
 }
