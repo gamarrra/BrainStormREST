@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,20 +19,25 @@ import java.util.List;
 @Table(name = "tareas")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Tarea {
+public class Tarea implements Serializable{
 	
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tareaId;
 
 	@NotBlank
     private String descripcion;
 
-	@JsonBackReference
+	@JsonManagedReference(value="usuarioCreador")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioCreador;  
 	
-	@JsonBackReference
+	@JsonManagedReference(value="usuarioResponsable")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioResponsable;   
     
@@ -47,11 +54,11 @@ public class Tarea {
     @LastModifiedDate
     private Date updatedAt;
     
-    @JsonManagedReference
+    @JsonBackReference(value="tareaOrigen")
 	@OneToMany(mappedBy = "tareaOrigen", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareas = new ArrayList<>();
     
-    @JsonBackReference
+    @JsonManagedReference(value="listTareas")
     @ManyToOne(fetch = FetchType.LAZY)
 	private Grupo grupo;
     

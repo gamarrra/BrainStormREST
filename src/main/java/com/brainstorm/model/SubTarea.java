@@ -39,19 +39,18 @@ public class SubTarea {
     @LastModifiedDate
     private Date updatedAt;
     
-    @JsonManagedReference
+    @JsonManagedReference(value="usuarioCreadorSubTarea")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioCreadorSubTarea;  
 	
-    @JsonManagedReference
+    @JsonManagedReference(value="usuarioResponsableSubTarea")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioResponsableSubTarea; 
 	
-    @JsonManagedReference
+    @JsonManagedReference(value="tareaOrigen")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Tarea tareaOrigen;
 
-    @JsonManagedReference
 	@ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Estado estado;
     
@@ -62,8 +61,6 @@ public class SubTarea {
     private int iconoId;
     
     private Date fechaComprometida;
-    
-    
     
     public Long getSubTareaId() {
 		return subTareaId;

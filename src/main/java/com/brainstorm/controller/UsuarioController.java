@@ -60,8 +60,8 @@ public class UsuarioController {
 		return ResponseEntity.ok().build();
 	}
 
-	@GetMapping("/usuarios/{email}")
-	public Usuario createIfNotExits(@PathVariable(value = "email") String email) {
+    @PostMapping("/usuarios")
+    public Usuario create(@Valid @RequestBody Usuario usuario) {
 
 		List<Usuario> list = usuarioRepository.findAll();
 		Usuario userToSave = new Usuario();
@@ -69,26 +69,16 @@ public class UsuarioController {
 		
 		 for (int i=0;i<list.size();i++) {
 			userToSave = list.get(i);
-			if (userToSave.getEmail() == email) {
+			if (userToSave.getEmail() == usuario.getEmail()) {
 				exists = true;
+				userToSave=usuario;
 				break;
 			}
 		}
-
 		if (exists == false) {
-			List<Grupo> listGrupos = new ArrayList<>();
-			List<Tarea> listTareasCreadas = new ArrayList<>();
-			List<Tarea> listTareasResponsable = new ArrayList<>();
-			List<SubTarea> listSubTareasCreadas = new ArrayList<>();
-			List<SubTarea> listSubTareasResponsable = new ArrayList<>();
-			userToSave.setNombreApellido(email);
+			userToSave.setNombreApellido(usuario.getEmail());
 			userToSave.setDocumento("");
-			userToSave.setEmail(email);
-			userToSave.setListGrupos(listGrupos);
-			userToSave.setListTareasCreadas(listTareasCreadas);
-			userToSave.setListSubTareasResponsable(listSubTareasResponsable);
-			userToSave.setListSubTareasCreadas(listSubTareasCreadas);
-			userToSave.setListTareasResponsable(listTareasResponsable);
+			userToSave.setEmail(usuario.getEmail());
 			userToSave.setUsuarioActivo(true);
 			usuarioRepository.save(userToSave);
 		}

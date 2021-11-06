@@ -15,8 +15,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "grupos")
 public class Grupo {
 	
-	
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long grupoId;
@@ -24,20 +22,17 @@ public class Grupo {
 	@NotBlank
 	private String nombre;
 	
-	@JsonBackReference
+	@JsonManagedReference(value="usuarioCreadorGrupo")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuarioCreadorGrupo;  
 	
-	@JsonManagedReference
+	@JsonBackReference(value="listTareas")
 	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareas = new ArrayList<>();
 
 	private int iconoId;
 	
 	private String descripcion;
-	
-	
-	
 	
 	public Long getGrupoId() {
 		return grupoId;

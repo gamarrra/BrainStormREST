@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,9 +19,14 @@ import java.util.List;
 @Table(name = "usuarios")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
-public class Usuario {
+public class Usuario implements Serializable{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long usuarioId;
@@ -28,23 +34,23 @@ public class Usuario {
 	@NotBlank
 	private String nombreApellido;
 	
-	@JsonManagedReference
+	@JsonBackReference(value="usuarioCreadorGrupo")
 	@OneToMany(mappedBy = "usuarioCreadorGrupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Grupo> listGrupos = new ArrayList<>();
 	
-	@JsonManagedReference
+	@JsonBackReference(value="usuarioCreador")
 	@OneToMany(mappedBy = "usuarioCreador", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareasCreadas = new ArrayList<>();
 	
-	@JsonManagedReference
+	@JsonBackReference(value="usuarioResponsable")
 	@OneToMany(mappedBy = "usuarioResponsable", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<Tarea> listTareasResponsable = new ArrayList<>();
 	
-	@JsonManagedReference
+	@JsonBackReference(value="usuarioCreadorSubTarea")
 	@OneToMany(mappedBy = "usuarioCreadorSubTarea", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareasCreadas = new ArrayList<>();
 	
-	@JsonManagedReference
+	@JsonBackReference(value="usuarioResponsableSubTarea")
 	@OneToMany(mappedBy = "usuarioResponsableSubTarea", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     private List<SubTarea> listSubTareasResponsable = new ArrayList<>();
 	
@@ -65,8 +71,6 @@ public class Usuario {
 	private boolean usuarioActivo;
 	
 	private boolean usuarioFullAccess;
-	
-	
 	
 	public Long getUsuarioId() {
 		return usuarioId;
