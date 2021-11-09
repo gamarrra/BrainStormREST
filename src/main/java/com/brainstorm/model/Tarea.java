@@ -42,9 +42,7 @@ public class Tarea implements Serializable{
 	@JsonBackReference(value="user-tarea")
 	private Usuario usuarioCreador; 
 	
-    @ManyToOne
-    @JsonBackReference(value="user-estado")
-    private Estado estado;
+    private String estado;
     
     public Long getTareaId() {
 		return tareaId;
@@ -70,11 +68,11 @@ public class Tarea implements Serializable{
 		this.usuarioCreador = usuarioCreador;
 	}
 
-	public Estado getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
 	}
     

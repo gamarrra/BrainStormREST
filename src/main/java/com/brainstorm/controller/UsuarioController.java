@@ -25,17 +25,18 @@ public class UsuarioController {
 		return usuarioRepository.findAll();
 	}
 
-	@PutMapping("/usuarios/{id}")
-	public Usuario update(@PathVariable(value = "id") Long usuarioId, @Valid @RequestBody Usuario usuarioDetails) {
+	@PutMapping("/usuarios")
+	public Usuario update(@Valid @RequestBody Usuario userUp) {
 
-		Usuario usuario = usuarioRepository.findById(usuarioId)
-				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", usuarioId));
+		Usuario usuario = usuarioRepository.findById(userUp.getUsuarioId())
+				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", userUp.getUsuarioId()));
 
-		usuario.setNombreApellido(usuarioDetails.getNombreApellido());
-		usuario.setListTareasCreadas(usuarioDetails.getListTareasCreadas());
-		usuario.setEmail(usuarioDetails.getEmail());
+		usuario.setNombreApellido(userUp.getNombreApellido());
+		usuario.setListTareasCreadas(userUp.getListTareasCreadas());
+		usuario.setEmail(userUp.getEmail());
 
 		Usuario usuarioAcutalizado = usuarioRepository.save(usuario);
+		
 		return usuarioAcutalizado;
 	}
 
