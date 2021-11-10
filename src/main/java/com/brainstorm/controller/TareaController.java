@@ -42,9 +42,8 @@ public class TareaController {
                 .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
     }
 
-    @PutMapping("/tareas/{id}")
-    public Tarea update(@PathVariable(value = "id") Long tareaId,
-                                           @Valid @RequestBody Tarea tareaDetails) throws NotFoundException{
+    @PutMapping("/tareas")
+    public Tarea update(@Valid @RequestBody Tarea tareaDetails) throws NotFoundException{
 
     	if (tareaDetails == null || tareaDetails.getTareaId() == null) {
             throw new InvalidRequestException("La Tarea o la tareaId no pueden ser nulos");
