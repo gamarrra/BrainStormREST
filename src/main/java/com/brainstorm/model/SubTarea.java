@@ -21,9 +21,10 @@ import java.util.List;
 @Table(name = "subtareas")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-@JsonIdentityInfo(
+@JsonIdentityInfo(		
+		scope = SubTarea.class,
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
-		  property = "tareaId")
+		  property = "subTareaId")
 public class SubTarea implements Serializable{
 	
     /**
@@ -81,14 +82,6 @@ public class SubTarea implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public Tarea getUsuarioCreador() {
-		return tareaCreadora;
-	}
-
-	public void setUsuarioCreador(Tarea tareaCreadora) {
-		this.tareaCreadora = tareaCreadora;
-	}
-
 	public String getEstado() {
 		return estado;
 	}
@@ -97,4 +90,11 @@ public class SubTarea implements Serializable{
 		this.estado = estado;
 	}
     
+	public Tarea getTareaCreadora() {
+		return tareaCreadora;
+	}
+
+	public void setTareaCreadora(Tarea tareaCreadora) {
+		this.tareaCreadora = tareaCreadora;
+	}
 }

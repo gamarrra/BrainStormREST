@@ -28,7 +28,7 @@ public class SubTareaController {
 		return subTareaRepository.findAll();
 	}
 
-	@PutMapping("/subTareas")
+	@PutMapping("/subtareas")
 	public SubTarea update(@Valid @RequestBody SubTarea subTareaUp) {
 
 		SubTarea subTarea = subTareaRepository.findById(subTareaUp.getSubTareaId())
@@ -44,7 +44,7 @@ public class SubTareaController {
 		return SubTareaAcutalizado;
 	}
 
-	@DeleteMapping("/subTareas/{id}")
+	@DeleteMapping("/subtareas/{id}")
 	public ResponseEntity<?> delete(@PathVariable(value = "id") Long subTareaId) {
 		SubTarea subTarea = subTareaRepository.findById(subTareaId)
 				.orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
@@ -54,7 +54,7 @@ public class SubTareaController {
 		return ResponseEntity.ok().build();
 	}
 
-	@PostMapping("/subTareas")
+	@PostMapping("/subtareas")
 	public SubTarea create(@Valid @RequestBody SubTarea subTarea) {
 
     	if (subTarea == null || subTarea.getDescripcion() == null) {

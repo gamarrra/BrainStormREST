@@ -20,6 +20,7 @@ import java.util.List;
 @Table(name = "usuarios")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIdentityInfo(
+		scope = Usuario.class,
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "usuarioId")
 public class Usuario implements Serializable{
@@ -60,13 +61,6 @@ public class Usuario implements Serializable{
 		this.nombreApellido = nombreApellido;
 	}
 
-	public List<Grupo> getGruposCreados() {
-		return listaGruposCreados;
-	}
-
-	public void setGruposCreados(List<Grupo> listaGruposCreados) {
-		this.listaGruposCreados = listaGruposCreados;
-	}
 
 	public String getEmail() {
 		return email;
@@ -74,6 +68,14 @@ public class Usuario implements Serializable{
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public List<Grupo> getListaGruposCreados() {
+		return listaGruposCreados;
+	}
+
+	public void setListaGruposCreados(List<Grupo> listaGruposCreados) {
+		this.listaGruposCreados = listaGruposCreados;
 	}
 
 }

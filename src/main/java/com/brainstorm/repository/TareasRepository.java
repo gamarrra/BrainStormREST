@@ -20,8 +20,5 @@ public interface TareasRepository extends JpaRepository<Tarea, Long> {
 	
 	@Query(value = "select * from tareas inner join grupos on tareas.grupo_grupo_id = grupos.grupo_id;", nativeQuery=true)
 	List <Tarea> GetTaskGroup();
-	
-	@Query("select s from Tarea s where s.grupoCreador.getGrupoId = :grupoCreador")
-	List<Tarea> findByGrupoCreador(@Param("grupoCreador") Long grupoCreador);
 }
 

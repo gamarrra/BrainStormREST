@@ -22,6 +22,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
 @JsonIdentityInfo(
+		scope = Tarea.class,
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "tareaId")
 public class Tarea implements Serializable{

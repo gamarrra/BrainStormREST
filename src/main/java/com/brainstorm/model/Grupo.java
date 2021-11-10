@@ -22,6 +22,7 @@ import java.util.List;
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
 @JsonIdentityInfo(
+		scope = Grupo.class,
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "grupoId")
 public class Grupo implements Serializable{
