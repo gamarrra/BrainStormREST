@@ -18,13 +18,13 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "tareas")
+@Table(name = "subtareas")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
 @JsonIdentityInfo(
 		  generator = ObjectIdGenerators.PropertyGenerator.class, 
 		  property = "tareaId")
-public class Tarea implements Serializable{
+public class SubTarea implements Serializable{
 	
     /**
 	 * 
@@ -33,19 +33,17 @@ public class Tarea implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long tareaId;
+    private Long subTareaId;
 
 	@NotBlank
     private String descripcion;
 
 	@ManyToOne
-	@JsonBackReference(value="grupo-tarea")
-	private Grupo grupoCreador; 
+	@JsonBackReference(value="tarea-subtarea")
+	private Tarea tareaCreadora; 
 	
-	@OneToMany(mappedBy = "tareaCreadora", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-	@JsonManagedReference(value="tarea-subtarea")
-    private List<SubTarea> listaSubTareas = new ArrayList<>();
-	
+    private String estado;
+    
 	private String usuarioEmailResponsable;
 	
 	private Date fechaComprometida;
@@ -66,23 +64,13 @@ public class Tarea implements Serializable{
 		return usuarioEmailResponsable;
 	}
 
-
-	public List<SubTarea> getListaSubTareas() {
-		return listaSubTareas;
-	}
-
-	public void setListaSubTareas(List<SubTarea> listaSubTareas) {
-		this.listaSubTareas = listaSubTareas;
-	}
-
-	private String estado;
     
-    public Long getTareaId() {
-		return tareaId;
+    public Long getSubTareaId() {
+		return subTareaId;
 	}
 
-	public void setTareaId(Long tareaId) {
-		this.tareaId = tareaId;
+	public void setSubTareaId(Long subTareaId) {
+		this.subTareaId = subTareaId;
 	}
 
 	public String getDescripcion() {
@@ -93,12 +81,12 @@ public class Tarea implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public Grupo getGrupoCreador() {
-		return grupoCreador;
+	public Tarea getUsuarioCreador() {
+		return tareaCreadora;
 	}
 
-	public void setGrupoCreador(Grupo grupoCreador) {
-		this.grupoCreador = grupoCreador;
+	public void setUsuarioCreador(Tarea tareaCreadora) {
+		this.tareaCreadora = tareaCreadora;
 	}
 
 	public String getEstado() {

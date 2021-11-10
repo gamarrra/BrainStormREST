@@ -38,8 +38,8 @@ public class Usuario implements Serializable{
 	private String nombreApellido;
 	
 	@OneToMany(mappedBy = "usuarioCreador", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-	@JsonManagedReference(value="user-tarea")
-    private List<Tarea> listTareasCreadas = new ArrayList<>();
+	@JsonManagedReference(value="user-grupo")
+    private List<Grupo> listaGruposCreados = new ArrayList<>();
 
 	@NotBlank
 	private String email;
@@ -60,12 +60,12 @@ public class Usuario implements Serializable{
 		this.nombreApellido = nombreApellido;
 	}
 
-	public List<Tarea> getListTareasCreadas() {
-		return listTareasCreadas;
+	public List<Grupo> getGruposCreados() {
+		return listaGruposCreados;
 	}
 
-	public void setListTareasCreadas(List<Tarea> listTareasCreadas) {
-		this.listTareasCreadas = listTareasCreadas;
+	public void setGruposCreados(List<Grupo> listaGruposCreados) {
+		this.listaGruposCreados = listaGruposCreados;
 	}
 
 	public String getEmail() {

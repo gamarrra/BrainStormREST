@@ -32,8 +32,9 @@ public class UsuarioController {
 				.orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", userUp.getUsuarioId()));
 
 		usuario.setNombreApellido(userUp.getNombreApellido());
-		usuario.setListTareasCreadas(userUp.getListTareasCreadas());
+		usuario.setGruposCreados(userUp.getGruposCreados());
 		usuario.setEmail(userUp.getEmail());
+		
 
 		Usuario usuarioAcutalizado = usuarioRepository.save(usuario);
 		
