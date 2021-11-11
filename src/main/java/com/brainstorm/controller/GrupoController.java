@@ -36,6 +36,7 @@ public class GrupoController {
 
 		grupo.setDescripcion(grupoUp.getDescripcion());
 		grupo.setListaTareas(grupoUp.getListaTareas());
+		grupo.setNombre(grupoUp.getNombre());
 		
 
 		Grupo grupoAcutalizado = grupoRepository.save(grupo);

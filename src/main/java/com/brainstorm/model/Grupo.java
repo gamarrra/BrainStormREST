@@ -38,6 +38,9 @@ public class Grupo implements Serializable{
 
 	@NotBlank
     private String descripcion;
+	
+	@NotBlank
+    private String nombre;
 
 	@ManyToOne
 	@JsonBackReference(value="user-grupo")
@@ -80,4 +83,11 @@ public class Grupo implements Serializable{
 		this.usuarioCreador = usuarioCreador;
 	}
     
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
 }
