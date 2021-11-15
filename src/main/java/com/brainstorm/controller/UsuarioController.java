@@ -1,8 +1,10 @@
 package com.brainstorm.controller;
 
 import com.brainstorm.exception.ResourceNotFoundException;
+import com.brainstorm.model.Grupo;
 import com.brainstorm.model.Tarea;
 import com.brainstorm.model.Usuario;
+import com.brainstorm.repository.GrupoRepository;
 import com.brainstorm.repository.UsuarioRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UsuarioController {
 
 	@Autowired
 	UsuarioRepository usuarioRepository;
+	
+	@Autowired
+	GrupoRepository	grupoRepository;
 
 	@GetMapping("/usuarios")
 	public List<Usuario> getAll() {
@@ -57,11 +62,22 @@ public class UsuarioController {
 		List<Usuario> users = usuarioRepository.findByEmail(usuario.getEmail());
 		if (users.size() < 1) 
 		{
-			Usuario user = new Usuario();
+			Usuario user = new Usuario();	
 			user.setEmail(usuario.getEmail());
-			user.setListaGruposCreados(usuario.getListaGruposCreados());
 			user.setNombreApellido(usuario.getEmail());
 			usuarioRepository.save(user);
+			
+			Grupo grupo=new Grupo();
+			grupo.setDescripcion("Grupo con tareas privadas");
+			grupo.setNombre("Privado");
+			grupo.setUsuarioCreador(user);
+			grupoRepository.save(grupo);
+			
+			List<Grupo> gruposUser= user.getListaGruposCreados();
+			gruposUser.add(grupo);
+			user.setListaGruposCreados(gruposUser);
+			usuarioRepository.save(user);
+	
 			return user;
 		}
 		else {

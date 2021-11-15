@@ -1,7 +1,9 @@
 package com.brainstorm.controller;
 
 import com.brainstorm.exception.ResourceNotFoundException;
+import com.brainstorm.model.Grupo;
 import com.brainstorm.model.Tarea;
+import com.brainstorm.repository.GrupoRepository;
 import com.brainstorm.repository.TareasRepository;
 import com.brainstorm.service.TareaService;
 import com.brainstorm.exception.InvalidRequestException;
@@ -22,6 +24,9 @@ public class TareaController {
 
     @Autowired
     private TareaService tareaService;
+    
+    @Autowired
+    private GrupoRepository	grupoRepository;
 
     @GetMapping("/tareas")
     public List<Tarea> SearchAll() {
@@ -33,6 +38,10 @@ public class TareaController {
     	if (tarea == null || tarea.getDescripcion() == null) {
             throw new InvalidRequestException("La Tarea o su descripción no pueden ser nulos");
         }
+    	if(tarea.getGrupoCreador()==null){
+    		List<Grupo> grupos=grupoRepository.findByNombre("Privado");
+    		tarea.setGrupoCreador(grupos.get(0));
+    		}
         return tareaService.save(tarea);
     }
 
