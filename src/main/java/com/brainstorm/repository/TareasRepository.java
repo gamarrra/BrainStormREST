@@ -1,6 +1,7 @@
 package com.brainstorm.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,5 +21,8 @@ public interface TareasRepository extends JpaRepository<Tarea, Long> {
 	
 	@Query(value = "select * from tareas inner join grupos on tareas.grupo_grupo_id = grupos.grupo_id;", nativeQuery=true)
 	List <Tarea> GetTaskGroup();
+	
+	@Query("select s from Tarea s where s.usuarioEmailResponsable = :email")
+	Optional<List<Tarea>> findByusuarioEmailResponsable(@Param("email") String email);
 }
 

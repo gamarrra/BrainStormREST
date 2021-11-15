@@ -39,12 +39,17 @@ public class TareaServiceImpl implements TareaService {
 	}
 	
 	@Override 
-	public List<Tarea>SearchAll(){
+	public List<Tarea>searchAll(){
 		return tareaRepository.SearchAll();
 	}
 	
 	@Override
-	public List<Tarea>GetTaskGroup(){
+	public List<Tarea>getTaskGroup(){
 		return tareaRepository.GetTaskGroup();
+	}
+	
+	@Override
+	public Optional<List<Tarea>>getByEmailResponsable(String email){
+		return tareaRepository.findByusuarioEmailResponsable(email);
 	}
 }

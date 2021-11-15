@@ -24,13 +24,10 @@ public class TareaController {
 
     @Autowired
     private TareaService tareaService;
-    
-    @Autowired
-    private GrupoRepository	grupoRepository;
 
     @GetMapping("/tareas")
     public List<Tarea> SearchAll() {
-        return tareaService.SearchAll();
+        return tareaService.searchAll();
     }
 
     @PostMapping("/tareas")
@@ -38,18 +35,21 @@ public class TareaController {
     	if (tarea == null || tarea.getDescripcion() == null) {
             throw new InvalidRequestException("La Tarea o su descripción no pueden ser nulos");
         }
-    	if(tarea.getGrupoCreador()==null){
-    		List<Grupo> grupos=grupoRepository.findByNombre("Privado");
-    		tarea.setGrupoCreador(grupos.get(0));
-    		}
         return tareaService.save(tarea);
     }
-
-    @GetMapping("/tareas/{id}")
-    public Tarea getById(@PathVariable(value = "id") Long tareaId) {
-        return tareaService.getById(tareaId)
-                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
+    
+    @GetMapping("/tareas/{email}")
+    public List<Tarea> getByEmailResponsable(@PathVariable(value = "email") String email) {
+        return tareaService.getByEmailResponsable(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "email", email));
     }
+    
+
+//    @GetMapping("/tareas/{id}")
+//    public Tarea getById(@PathVariable(value = "id") Long tareaId) {
+//        return tareaService.getById(tareaId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
+//    }
 
     @PutMapping("/tareas")
     public Tarea update(@Valid @RequestBody Tarea tareaDetails) throws NotFoundException{
@@ -85,7 +85,7 @@ public class TareaController {
     
     @GetMapping("/tareasGrupo")
     public List<Tarea> GetTaskGroup() {
-        return tareaService.GetTaskGroup();
+        return tareaService.getTaskGroup();
     }
 
 }

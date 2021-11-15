@@ -17,7 +17,9 @@ public interface TareaService {
 	
 	public void delete(Tarea tarea);
 
-	public List <Tarea> SearchAll();
+	public List <Tarea> searchAll();
 	
-	public List <Tarea> GetTaskGroup();
+	public List <Tarea> getTaskGroup();
+	
+	public Optional<List<Tarea>>getByEmailResponsable(String email);
 }
