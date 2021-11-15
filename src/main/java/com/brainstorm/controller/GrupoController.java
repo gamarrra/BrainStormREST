@@ -1,69 +1,84 @@
 package com.brainstorm.controller;
 
+import com.brainstorm.exception.InvalidRequestException;
 import com.brainstorm.exception.ResourceNotFoundException;
 import com.brainstorm.model.Grupo;
-import com.brainstorm.model.Usuario;
+import com.brainstorm.model.Tarea;
+
 import com.brainstorm.repository.GrupoRepository;
-import com.brainstorm.repository.UsuarioRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class GrupoController {
 
-	
-    @Autowired
-    GrupoRepository grupoRepository;
-    
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	GrupoRepository grupoRepository;
 
-    @GetMapping("/grupos")
-    public List<Grupo> getAll() {
-        return grupoRepository.findAll();
-    }
+	@GetMapping("/grupos")
+	public List<Grupo> getAll() {
+		return grupoRepository.findAll();
+	}
 
-    @GetMapping("/grupos/{id}")
-    public Grupo getById(@PathVariable(value = "id") Long grupoId) {
-        return grupoRepository.findById(grupoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", grupoId));
-    }
+	@PutMapping("/grupos")
+	public Grupo update(@Valid @RequestBody Grupo grupoUp) {
 
-    @PutMapping("/grupos/{id}")
-    public Grupo update(@PathVariable(value = "id") Long grupoId,
-                                           @Valid @RequestBody Grupo grupoDetails) {
+		Grupo grupo = grupoRepository.findById(grupoUp.getGrupoId())
+				.orElseThrow(() -> new ResourceNotFoundException("grupo", "id", grupoUp.getGrupoId()));
 
-    	Grupo grupo = grupoRepository.findById(grupoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario", "id", grupoId));
+		grupo.setDescripcion(grupoUp.getDescripcion());
+		grupo.setListaTareas(grupoUp.getListaTareas());
+		grupo.setNombre(grupoUp.getNombre());
+		
 
-    	grupo.setNombre(grupoDetails.getNombre());
-    	grupo.setUsuarioCreadorGrupo(grupoDetails.getUsuarioCreadorGrupo());
-    	grupo.setListTareas(grupoDetails.getListTareas());
-    	grupo.setIconoId(grupoDetails.getIconoId());
-    	grupo.setDescripcion(grupoDetails.getDescripcion());
-    	
-    	Grupo grupoActualizado = grupoRepository.save(grupo);
-        return grupoActualizado;
-    }
+		Grupo grupoAcutalizado = grupoRepository.save(grupo);
+		
+		return grupoAcutalizado;
+	}
 
-    @DeleteMapping("/grupos/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long grupoId) {
-    	Grupo grupo = grupoRepository.findById(grupoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Grupo", "id", grupoId));
+	@DeleteMapping("/grupos/{id}")
+	public ResponseEntity<?> delete(@PathVariable(value = "id") Long grupoId) {
+		Grupo grupo = grupoRepository.findById(grupoId)
+				.orElseThrow(() -> new ResourceNotFoundException("grupo", "id", grupoId));
 
-        grupoRepository.delete(grupo);
+		grupoRepository.delete(grupo);
 
-        return ResponseEntity.ok().build();
-    }
-    
-    @PostMapping("/grupos")
-    public Grupo createNote(@Valid @RequestBody Grupo grupo) {
+		return ResponseEntity.ok().build();
+	}
+
+	@PostMapping("/grupos")
+	public Grupo create(@Valid @RequestBody Grupo grupo) {
+
+    	if (grupo == null || grupo.getDescripcion() == null) {
+            throw new InvalidRequestException("El grupo o su descripción no pueden ser nulos");
+        }
         return grupoRepository.save(grupo);
-    }
+
+	}
 }
+
+//		List<grupo> list = grupoRepository.findAll();
+//		grupoRepository.
+//		grupo userList = new grupo();
+//		
+//		 for (int i=0;i<list.size();i++) {
+//			 userList = list.get(i);
+//			if (userList.getEmail() == grupo.getEmail()) {
+//				return userList;
+//			}
+//		}
+//			grupo user = new grupo();
+//			user.setNombreApellido(grupo.getEmail());
+//			user.setEmail(grupo.getEmail());
+//			grupoRepository.save(user);
+//			return user;
+//		}
+//		

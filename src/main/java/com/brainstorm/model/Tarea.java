@@ -1,8 +1,10 @@
 package com.brainstorm.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -19,6 +21,10 @@ import java.util.List;
 @Table(name = "tareas")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
+@JsonIdentityInfo(
+		scope = Tarea.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "tareaId")
 public class Tarea implements Serializable{
 	
     /**
@@ -33,43 +39,44 @@ public class Tarea implements Serializable{
 	@NotBlank
     private String descripcion;
 
-	@JsonManagedReference(value="usuarioCreador")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioCreador;  
+	@ManyToOne
+	@JsonBackReference(value="grupo-tarea")
+	private Grupo grupoCreador; 
 	
-	@JsonManagedReference(value="usuarioResponsable")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioResponsable;   
-    
-    @ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Estado estado;
+	@OneToMany(mappedBy = "tareaCreadora", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JsonManagedReference(value="tarea-subtarea")
+    private List<SubTarea> listaSubTareas = new ArrayList<>();
+	
+	private String usuarioEmailResponsable;
+	
+	private Date fechaComprometida;
+	
+    public Date getFechaComprometida() {
+		return fechaComprometida;
+	}
 
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
+	public void setFechaComprometida(Date fechaComprometida) {
+		this.fechaComprometida = fechaComprometida;
+	}
 
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
-    
-    @JsonBackReference(value="tareaOrigen")
-	@OneToMany(mappedBy = "tareaOrigen", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    private List<SubTarea> listSubTareas = new ArrayList<>();
-    
-    @JsonManagedReference(value="listTareas")
-    @ManyToOne(fetch = FetchType.LAZY)
-	private Grupo grupo;
-    
-    private Date fechaComprometida;
-    
-    private int puntaje;
-    
-    private int prioridad;
-    
-    private int iconoId;
-    
+	public void setUsuarioEmailResponsable(String usuarioEmailResponsable) {
+		this.usuarioEmailResponsable = usuarioEmailResponsable;
+	}
+
+	public String getUsuarioEmailResponsable() {
+		return usuarioEmailResponsable;
+	}
+
+
+	public List<SubTarea> getListaSubTareas() {
+		return listaSubTareas;
+	}
+
+	public void setListaSubTareas(List<SubTarea> listaSubTareas) {
+		this.listaSubTareas = listaSubTareas;
+	}
+
+	private String estado;
     
     public Long getTareaId() {
 		return tareaId;
@@ -87,92 +94,20 @@ public class Tarea implements Serializable{
 		this.descripcion = descripcion;
 	}
 
-	public Usuario getUsuarioCreador() {
-		return usuarioCreador;
+	public Grupo getGrupoCreador() {
+		return grupoCreador;
 	}
 
-	public void setUsuarioCreador(Usuario usuarioCreador) {
-		this.usuarioCreador = usuarioCreador;
+	public void setGrupoCreador(Grupo grupoCreador) {
+		this.grupoCreador = grupoCreador;
 	}
 
-	public Usuario getUsuarioResponsable() {
-		return usuarioResponsable;
-	}
-
-	public void setUsuarioResponsable(Usuario usuarioResponsable) {
-		this.usuarioResponsable = usuarioResponsable;
-	}
-
-	public Estado getEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(String estado) {
 		this.estado = estado;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public List<SubTarea> getListSubTareas() {
-		return listSubTareas;
-	}
-
-	public void setListSubTareas(List<SubTarea> listSubTareas) {
-		this.listSubTareas = listSubTareas;
-	}
-
-	public Grupo getGrupo() {
-		return grupo;
-	}
-
-	public void setGrupo(Grupo grupo) {
-		this.grupo = grupo;
-	}
-
-	public Date getFechaComprometida() {
-		return fechaComprometida;
-	}
-
-	public void setFechaComprometida(Date fechaComprometida) {
-		this.fechaComprometida = fechaComprometida;
-	}
-
-	public int getPuntaje() {
-		return puntaje;
-	}
-
-	public void setPuntaje(int puntaje) {
-		this.puntaje = puntaje;
-	}
-
-	public int getPrioridad() {
-		return prioridad;
-	}
-
-	public void setPrioridad(int prioridad) {
-		this.prioridad = prioridad;
-	}
-
-	public int getIconoId() {
-		return iconoId;
-	}
-
-	public void setIconoId(int iconoId) {
-		this.iconoId = iconoId;
 	}
     
 }

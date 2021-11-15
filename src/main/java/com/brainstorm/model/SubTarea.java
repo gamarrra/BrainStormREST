@@ -1,66 +1,70 @@
 package com.brainstorm.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Entity
-@Table(name = "subTareas")
-@EntityListeners(AuditingEntityListener.class)
+@Table(name = "subtareas")
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class SubTarea {
+@JsonIdentityInfo(		
+		scope = SubTarea.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "subTareaId")
+public class SubTarea implements Serializable{
 	
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long subTareaId;
 
 	@NotBlank
     private String descripcion;
 
-    @Column(nullable = false, updatable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
-    private Date createdAt;
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    @LastModifiedDate
-    private Date updatedAt;
-    
-    @JsonManagedReference(value="usuarioCreadorSubTarea")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioCreadorSubTarea;  
+	@ManyToOne
+	@JsonBackReference(value="tarea-subtarea")
+	private Tarea tareaCreadora; 
 	
-    @JsonManagedReference(value="usuarioResponsableSubTarea")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioResponsableSubTarea; 
+    private String estado;
+    
+	private String usuarioEmailResponsable;
 	
-    @JsonManagedReference(value="tareaOrigen")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Tarea tareaOrigen;
+	private Date fechaComprometida;
+	
+    public Date getFechaComprometida() {
+		return fechaComprometida;
+	}
 
-	@ManyToOne(optional = true, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Estado estado;
-    
-    private int puntaje;
-    
-    private int prioridad;
-    
-    private int iconoId;
-    
-    private Date fechaComprometida;
+	public void setFechaComprometida(Date fechaComprometida) {
+		this.fechaComprometida = fechaComprometida;
+	}
+
+	public void setUsuarioEmailResponsable(String usuarioEmailResponsable) {
+		this.usuarioEmailResponsable = usuarioEmailResponsable;
+	}
+
+	public String getUsuarioEmailResponsable() {
+		return usuarioEmailResponsable;
+	}
+
     
     public Long getSubTareaId() {
 		return subTareaId;
@@ -78,84 +82,19 @@ public class SubTarea {
 		this.descripcion = descripcion;
 	}
 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
-	public Usuario getUsuarioCreadorSubTarea() {
-		return usuarioCreadorSubTarea;
-	}
-
-	public void setUsuarioCreadorSubTarea(Usuario usuarioCreadorSubTarea) {
-		this.usuarioCreadorSubTarea = usuarioCreadorSubTarea;
-	}
-
-	public Usuario getUsuarioResponsableSubTarea() {
-		return usuarioResponsableSubTarea;
-	}
-
-	public void setUsuarioResponsableSubTarea(Usuario usuarioResponsableSubTarea) {
-		this.usuarioResponsableSubTarea = usuarioResponsableSubTarea;
-	}
-
-	public Tarea getTareaOrigen() {
-		return tareaOrigen;
-	}
-
-	public void setTareaOrigen(Tarea tareaOrigen) {
-		this.tareaOrigen = tareaOrigen;
-	}
-
-	public int getPuntaje() {
-		return puntaje;
-	}
-
-	public void setPuntaje(int puntaje) {
-		this.puntaje = puntaje;
-	}
-
-	public int getPrioridad() {
-		return prioridad;
-	}
-
-	public void setPrioridad(int prioridad) {
-		this.prioridad = prioridad;
-	}
-
-	public int getIconoId() {
-		return iconoId;
-	}
-
-	public void setIconoId(int iconoId) {
-		this.iconoId = iconoId;
-	}
-
-	public Date getFechaComprometida() {
-		return fechaComprometida;
-	}
-
-	public void setFechaComprometida(Date fechaComprometida) {
-		this.fechaComprometida = fechaComprometida;
-	}
-	
-    public Estado getEstadoSubtarea() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstadoSubtarea(Estado estadoSubtarea) {
-		this.estado = estadoSubtarea;
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+    
+	public Tarea getTareaCreadora() {
+		return tareaCreadora;
 	}
 
+	public void setTareaCreadora(Tarea tareaCreadora) {
+		this.tareaCreadora = tareaCreadora;
+	}
 }

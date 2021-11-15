@@ -1,67 +1,84 @@
 package com.brainstorm.controller;
 
+import com.brainstorm.exception.InvalidRequestException;
 import com.brainstorm.exception.ResourceNotFoundException;
 import com.brainstorm.model.SubTarea;
-import com.brainstorm.repository.SubTareasRepository;
+import com.brainstorm.model.Tarea;
+
+import com.brainstorm.repository.SubTareaRepository;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class SubTareaController {
 
-    @Autowired
-    SubTareasRepository subTareasRepository;
+	@Autowired
+	SubTareaRepository subTareaRepository;
 
-    @GetMapping("/subtareas")
-    public List<SubTarea> getAll() {
-        return subTareasRepository.findAll();
-    }
+	@GetMapping("/subtareas")
+	public List<SubTarea> getAll() {
+		return subTareaRepository.findAll();
+	}
 
-    @PostMapping("/subtareas")
-    public SubTarea create(@Valid @RequestBody SubTarea subTarea) {
-        return subTareasRepository.save(subTarea);
-    }
+	@PutMapping("/subtareas")
+	public SubTarea update(@Valid @RequestBody SubTarea subTareaUp) {
 
-    @GetMapping("/subtareas/{id}")
-    public SubTarea getById(@PathVariable(value = "id") Long subtareaId) {
-        return subTareasRepository.findById(subtareaId)
-                .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subtareaId));
-    }
+		SubTarea subTarea = subTareaRepository.findById(subTareaUp.getSubTareaId())
+				.orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaUp.getSubTareaId()));
 
-    @PutMapping("/subtareas/{id}")
-    public SubTarea update(@PathVariable(value = "id") Long subTareaId,
-                                           @Valid @RequestBody SubTarea subTareaDetails) {
+		subTarea.setDescripcion(subTareaUp.getDescripcion());
+		subTarea.setEstado(subTareaUp.getEstado());
+		subTarea.setUsuarioEmailResponsable(subTareaUp.getUsuarioEmailResponsable());	
+		subTarea.setFechaComprometida(subTareaUp.getFechaComprometida());
 
-    	SubTarea subTarea = subTareasRepository.findById(subTareaId)
-                .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
+		SubTarea SubTareaAcutalizado = subTareaRepository.save(subTarea);
+		
+		return SubTareaAcutalizado;
+	}
 
-    	subTarea.setDescripcion(subTareaDetails.getDescripcion());
-    	subTarea.setUsuarioCreadorSubTarea(subTareaDetails.getUsuarioCreadorSubTarea());
-    	subTarea.setUsuarioResponsableSubTarea(subTareaDetails.getUsuarioResponsableSubTarea());
-    	subTarea.setTareaOrigen(subTareaDetails.getTareaOrigen());
-    	subTarea.setPuntaje(subTareaDetails.getPuntaje());
-    	subTarea.setPrioridad(subTareaDetails.getPrioridad());
-    	subTarea.setIconoId(subTareaDetails.getIconoId());
-    	subTarea.setFechaComprometida(subTareaDetails.getFechaComprometida());
-    	subTarea.setEstadoSubtarea(subTareaDetails.getEstadoSubtarea());
+	@DeleteMapping("/subtareas/{id}")
+	public ResponseEntity<?> delete(@PathVariable(value = "id") Long subTareaId) {
+		SubTarea subTarea = subTareaRepository.findById(subTareaId)
+				.orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
 
-        SubTarea tareaAcutalizada = subTareasRepository.save(subTarea);
-        return tareaAcutalizada;
-    }
+		subTareaRepository.delete(subTarea);
 
-    @DeleteMapping("/subtareas/{id}")
-    public ResponseEntity<?> delete(@PathVariable(value = "id") Long subTareaId) {
-    	SubTarea tarea = subTareasRepository.findById(subTareaId)
-                .orElseThrow(() -> new ResourceNotFoundException("SubTarea", "id", subTareaId));
+		return ResponseEntity.ok().build();
+	}
 
-        subTareasRepository.delete(tarea);
+	@PostMapping("/subtareas")
+	public SubTarea create(@Valid @RequestBody SubTarea subTarea) {
 
-        return ResponseEntity.ok().build();
-    }
+    	if (subTarea == null || subTarea.getDescripcion() == null) {
+            throw new InvalidRequestException("La SubTarea o su descripción no pueden ser nulos");
+        }
+        return subTareaRepository.save(subTarea);
+
+	}
 }
+
+//		List<SubTarea> list = SubTareaRepository.findAll();
+//		SubTareaRepository.
+//		SubTarea userList = new SubTarea();
+//		
+//		 for (int i=0;i<list.size();i++) {
+//			 userList = list.get(i);
+//			if (userList.getEmail() == SubTarea.getEmail()) {
+//				return userList;
+//			}
+//		}
+//			SubTarea user = new SubTarea();
+//			user.setNombreApellido(SubTarea.getEmail());
+//			user.setEmail(SubTarea.getEmail());
+//			SubTareaRepository.save(user);
+//			return user;
+//		}
+//		

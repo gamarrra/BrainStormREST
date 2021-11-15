@@ -1,7 +1,9 @@
 package com.brainstorm.controller;
 
 import com.brainstorm.exception.ResourceNotFoundException;
+import com.brainstorm.model.Grupo;
 import com.brainstorm.model.Tarea;
+import com.brainstorm.repository.GrupoRepository;
 import com.brainstorm.repository.TareasRepository;
 import com.brainstorm.service.TareaService;
 import com.brainstorm.exception.InvalidRequestException;
@@ -25,7 +27,7 @@ public class TareaController {
 
     @GetMapping("/tareas")
     public List<Tarea> SearchAll() {
-        return tareaService.SearchAll();
+        return tareaService.searchAll();
     }
 
     @PostMapping("/tareas")
@@ -35,16 +37,22 @@ public class TareaController {
         }
         return tareaService.save(tarea);
     }
-
-    @GetMapping("/tareas/{id}")
-    public Tarea getById(@PathVariable(value = "id") Long tareaId) {
-        return tareaService.getById(tareaId)
-                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
+    
+    @GetMapping("/tareas/{email}")
+    public List<Tarea> getByEmailResponsable(@PathVariable(value = "email") String email) {
+        return tareaService.getByEmailResponsable(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "email", email));
     }
+    
 
-    @PutMapping("/tareas/{id}")
-    public Tarea update(@PathVariable(value = "id") Long tareaId,
-                                           @Valid @RequestBody Tarea tareaDetails) throws NotFoundException{
+//    @GetMapping("/tareas/{id}")
+//    public Tarea getById(@PathVariable(value = "id") Long tareaId) {
+//        return tareaService.getById(tareaId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Tarea", "id", tareaId));
+//    }
+
+    @PutMapping("/tareas")
+    public Tarea update(@Valid @RequestBody Tarea tareaDetails) throws NotFoundException{
 
     	if (tareaDetails == null || tareaDetails.getTareaId() == null) {
             throw new InvalidRequestException("La Tarea o la tareaId no pueden ser nulos");
@@ -56,16 +64,11 @@ public class TareaController {
         Tarea tareaExistente = optionalTarea.get();
 
         tareaExistente.setDescripcion(tareaDetails.getDescripcion());
-        tareaExistente.setUsuarioCreador(tareaDetails.getUsuarioCreador());
-        tareaExistente.setUsuarioResponsable(tareaDetails.getUsuarioResponsable());
+        tareaExistente.setListaSubTareas(tareaDetails.getListaSubTareas());
         tareaExistente.setEstado(tareaDetails.getEstado());
-        tareaExistente.setListSubTareas(tareaDetails.getListSubTareas());
-        tareaExistente.setGrupo(tareaDetails.getGrupo());
         tareaExistente.setFechaComprometida(tareaDetails.getFechaComprometida());
-        tareaExistente.setPuntaje(tareaDetails.getPuntaje());
-        tareaExistente.setPrioridad(tareaDetails.getPrioridad());
-        tareaExistente.setIconoId(tareaDetails.getIconoId());        
-        
+        tareaExistente.setUsuarioEmailResponsable(tareaDetails.getUsuarioEmailResponsable());
+
         Tarea tareaAcutalizada = tareaService.save(tareaExistente);
         return tareaAcutalizada;
     }
@@ -82,7 +85,7 @@ public class TareaController {
     
     @GetMapping("/tareasGrupo")
     public List<Tarea> GetTaskGroup() {
-        return tareaService.GetTaskGroup();
+        return tareaService.getTaskGroup();
     }
 
 }

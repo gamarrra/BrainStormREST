@@ -1,39 +1,64 @@
 package com.brainstorm.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 
 @Entity
 @Table(name = "grupos")
-public class Grupo {
+@JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
+        allowGetters = true)
+@JsonIdentityInfo(
+		scope = Grupo.class,
+		  generator = ObjectIdGenerators.PropertyGenerator.class, 
+		  property = "grupoId")
+public class Grupo implements Serializable{
 	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long grupoId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long grupoId;
+
+	@NotBlank
+    private String descripcion;
 	
 	@NotBlank
-	private String nombre;
-	
-	@JsonManagedReference(value="usuarioCreadorGrupo")
-	@ManyToOne(fetch = FetchType.LAZY)
-	private Usuario usuarioCreadorGrupo;  
-	
-	@JsonBackReference(value="listTareas")
-	@OneToMany(mappedBy = "grupo", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
-    private List<Tarea> listTareas = new ArrayList<>();
+    private String nombre;
 
-	private int iconoId;
+	@ManyToOne
+	@JsonBackReference(value="user-grupo")
+	private Usuario usuarioCreador; 
 	
-	private String descripcion;
+	@OneToMany(mappedBy = "grupoCreador", fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@JsonManagedReference(value="grupo-tarea")
+    private List<Tarea> listaTareas = new ArrayList<>();
 	
+    
+    public List<Tarea> getListaTareas() {
+		return listaTareas;
+	}
+
+	public void setListaTareas(List<Tarea> listaTareas) {
+		this.listaTareas = listaTareas;
+	}
+
 	public Long getGrupoId() {
 		return grupoId;
 	}
@@ -42,6 +67,22 @@ public class Grupo {
 		this.grupoId = grupoId;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public Usuario getUsuarioCreador() {
+		return usuarioCreador;
+	}
+
+	public void setUsuarioCreador(Usuario usuarioCreador) {
+		this.usuarioCreador = usuarioCreador;
+	}
+    
 	public String getNombre() {
 		return nombre;
 	}
@@ -49,37 +90,4 @@ public class Grupo {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public Usuario getUsuarioCreadorGrupo() {
-		return usuarioCreadorGrupo;
-	}
-
-	public void setUsuarioCreadorGrupo(Usuario usuarioCreadorGrupo) {
-		this.usuarioCreadorGrupo = usuarioCreadorGrupo;
-	}
-
-	public List<Tarea> getListTareas() {
-		return listTareas;
-	}
-
-	public void setListTareas(List<Tarea> listTareas) {
-		this.listTareas = listTareas;
-	}
-
-	public int getIconoId() {
-		return iconoId;
-	}
-
-	public void setIconoId(int iconoId) {
-		this.iconoId = iconoId;
-	}
-
-	public String getDescripcion() {
-		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
-	}	
-
 }
